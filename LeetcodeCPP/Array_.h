@@ -88,4 +88,19 @@ public:
         }
         return true;        
     }
+    int minimumLength(string s) 
+    {
+        // https://leetcode.cn/problems/minimum-length-of-string-after-deleting-similar-ends/description/
+        int left = 0;
+        int right = s.size() - 1;
+        while (left < right && s[left] == s[right])
+        {
+            char c = s[left];
+            while (s[left] == c && left <= right)
+                left++;
+            while (s[right] == c && left <= right)
+                right--;
+        }
+        return right - left + 1;
+    }
 };

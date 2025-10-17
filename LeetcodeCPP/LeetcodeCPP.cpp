@@ -7,8 +7,8 @@ using namespace std;
 int main() {
     
     Array_ array;
-    string s = "0P";
-    auto tag = array.isPalindrome(s);
+    string s = "bbbbbbbbbbbbbbbbbbb";
+    auto tag = array.minimumLength(s);
     cout << tag;
     return 0;
 }
