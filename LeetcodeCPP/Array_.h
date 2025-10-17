@@ -103,4 +103,37 @@ public:
         }
         return right - left + 1;
     }
+    int minimumRefill(vector<int>& plants, int capacityA, int capacityB) 
+    {
+        // https://leetcode.cn/problems/watering-plants-ii/description/
+        int ans = 0;
+        int left = 0;
+        int right = plants.size() - 1;
+        int a = capacityA;
+        int b = capacityB;
+
+        auto water = [&](int& can, int need, int capacity) {
+            if (can < need) {
+                can = capacity;
+                ans++;
+            }
+            can -= need;
+        };
+        
+        while (left <= right)
+        {            
+            if (left == right)
+            {
+                if (a >= b)
+                    water(a, plants[left], capacityA);
+                else
+                    water(b, plants[left], capacityB);
+                
+                return ans;
+            }
+            water(a, plants[left++], capacityA);
+            water(b, plants[right--], capacityB);
+        }
+        return ans;
+    }
 };
