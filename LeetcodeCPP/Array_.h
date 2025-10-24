@@ -209,4 +209,34 @@ public:
             return letters[0];
         return letters[left];
     }
+    vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) 
+    {
+        // https://leetcode.cn/problems/successful-pairs-of-spells-and-potions/description/
+        // 这个题灵神的题解太重要了   乘法溢出的问题
+        vector<int> ans;
+        sort(potions.begin(), potions.end());           // 先升序
+        int size = potions.size();
+        auto lower = [&](int multiple)
+        {
+            int left = 0;
+            int right = size - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (potions[mid] < success / multiple)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            return left;
+        };
+
+        for (int i : spells)
+        {
+            auto num = lower(i);
+            ans.push_back(size - num);
+        }
+        return ans;
+    }
+
 };
