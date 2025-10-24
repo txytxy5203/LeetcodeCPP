@@ -192,4 +192,21 @@ public:
             return -1;
         return left;
     }
+    char nextGreatestLetter(vector<char>& letters, char target) 
+    {
+        // https://leetcode.cn/problems/find-smallest-letter-greater-than-target/description/
+        int left = 0;
+        int right = letters.size() - 1;
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (letters[mid] < target + 1)
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        if (left == letters.size() )
+            return letters[0];
+        return letters[left];
+    }
 };
