@@ -112,13 +112,16 @@ public:
         int a = capacityA;
         int b = capacityB;
 
-        auto water = [&](int& can, int need, int capacity) {
+        auto water = [&](int& can, int need, int capacity) // [&] 让 ans 可见；int&/int 接收调用
+        {
             if (can < need) {
                 can = capacity;
                 ans++;
             }
             can -= need;
         };
+
+        
         
         while (left <= right)
         {            
@@ -135,5 +138,42 @@ public:
             water(b, plants[right--], capacityB);
         }
         return ans;
+    }
+    vector<int> sortedSquares(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/squares-of-a-sorted-array/description/
+        vector<int> ans;
+        int left = 0;
+        int right = nums.size() - 1;
+        while (left <= right)
+        {
+
+        }
+    }
+    vector<int> searchRange(vector<int>& nums, int target) 
+    {
+        // https://leetcode.cn/problems/find-first-and-last-position-of-element-in-sorted-array/description/
+        auto lower = [&](int i)
+        {
+            int left = 0;
+            int right = nums.size() -  1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] < i)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            return left;
+        };
+        int first = lower(target);
+        int second = lower(target + 1) - 1;
+        if (first == nums.size() || nums[first] != target)
+        {
+            return {-1, -1};
+        }
+
+        return { first, second };
     }
 };

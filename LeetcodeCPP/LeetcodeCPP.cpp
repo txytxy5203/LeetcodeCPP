@@ -8,7 +8,11 @@ int main() {
     
     Array_ array;
     string s = "bbbbbbbbbbbbbbbbbbb";
-    auto tag = array.minimumLength(s);
-    cout << tag;
+    vector<int> v = { 5,7,7,8,8,10 };
+    auto tag = array.searchRange(v, 8);
+    for (int i : tag)
+    {
+        cout << i << endl;
+    }
     return 0;
 }
