@@ -267,4 +267,91 @@ public:
         }
         return ans;
     }
+    vector<int> answerQueries(vector<int>& nums, vector<int>& queries) 
+    {
+        // https://leetcode.cn/problems/longest-subsequence-with-limited-sum/description/
+        
+        auto lower = [&](int target)
+        {
+            int left = 0;
+            int right = nums.size() - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (nums[mid] < target)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            return left;
+        };
+
+        sort(nums.begin(), nums.end());     
+        for (int i = 1; i < nums.size(); i++)       // 前缀和
+        {
+            nums[i] += nums[i - 1];
+        }
+
+        vector<int> ans;
+        for (int i = 0; i < queries.size(); i++)
+        {
+            int num = lower(queries[i] + 1);            // 灵活地 +1 -11
+            ans.push_back(num);
+        }
+        return ans;
+    }
+    int smallestDivisor(vector<int>& nums, int threshold) 
+    {
+        // https://leetcode.cn/problems/find-the-smallest-divisor-given-a-threshold/description/
+        auto check = [&](int mid)
+            {
+                int sum = 0;
+                for (int i = 0; i < nums.size(); i++)
+                {
+                    sum += (nums[i] + mid - 1 ) / mid;
+                    if (sum > threshold)
+                        return false;
+                }
+                return true;
+            };
+
+        int left = 1;
+        int right = *max_element(nums.begin(), nums.end());
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))                             // 这边依旧是 一个 +1  一个 -1
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+    long long minimumTime(vector<int>& time, int totalTrips) 
+    {
+        // https://leetcode.cn/problems/minimum-time-to-complete-trips/description/
+        auto check = [&](long long mid)
+            {
+                long long sum = 0;
+                for(int i : time)
+                {
+                    sum += mid / (long long)i;
+                    if (sum >= totalTrips)
+                        return true;
+                }
+                return false;
+            };
+
+        long long left = 0;
+        long long right = (long long)*min_element(time.begin(), time.end()) * (long long)totalTrips;
+        while (left <= right)
+        {
+            long long mid = left + (right - left) / 2;
+            if (check(mid))                             // 这边依旧是 一个 +1  一个 -1
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
 };
