@@ -238,5 +238,33 @@ public:
         }
         return ans;
     }
+    int findTheDistanceValue(vector<int>& arr1, vector<int>& arr2, int d) 
+    {
+        // https://leetcode.cn/problems/find-the-distance-value-between-two-arrays/description/
+        sort(arr2.begin(), arr2.end());
+        auto lower = [&](int target)
+        {
+            int left = 0;
+            int right = arr2.size() - 1;
+            while (left <= right)
+            {
+                int mid = left + (right - left) / 2;
+                if (arr2[mid] < target)
+                    left = mid + 1;
+                else
+                    right = mid - 1;
+            }
+            return left;
+        };
 
+        int ans = 0;
+        for (int i = 0; i < arr1.size(); i++)
+        {
+            int first = lower(arr1[i] - d);
+            int second = lower(arr1[i] + d + 1);
+            if (first == second)
+                ans++;
+        }
+        return ans;
+    }
 };
