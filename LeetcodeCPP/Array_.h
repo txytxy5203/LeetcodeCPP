@@ -330,6 +330,7 @@ public:
     long long minimumTime(vector<int>& time, int totalTrips) 
     {
         // https://leetcode.cn/problems/minimum-time-to-complete-trips/description/
+        // 灵神 二分找最小的答案  模板
         auto check = [&](long long mid)
             {
                 long long sum = 0;
@@ -353,5 +354,65 @@ public:
                 left = mid + 1;
         }
         return left;
+    }
+    int shipWithinDays(vector<int>& weights, int days) 
+    {
+        // https://leetcode.cn/problems/capacity-to-ship-packages-within-d-days/description/
+        auto check = [&](int mid)
+            {
+                int time = 1, last = 0;
+                for (int i = 0; i < weights.size(); i++)
+                {
+                    if (weights[i] - last > mid)
+                    {
+                        last = weights[i - 1];
+                        time++;
+                        if (time > days)
+                            return false;
+                    }
+                }
+                return true;
+            };
+        int left = *max_element(weights.begin(), weights.end());
+
+        for (int i = 1; i < weights.size(); i++)
+        {
+            weights[i] += weights[i - 1];
+        }
+        int right = weights[weights.size() - 1];
+
+        while (left <= right) 
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+    int hIndex(vector<int>& citations) 
+    {
+        // https://leetcode.cn/problems/h-index-ii/description/ 
+        // 二分找答案 求最大  最后返回的是right
+
+        //  FFFFFFTTTTTTT
+        //  TTTTTTFFFFFFF
+        // 看上面这个就懂了 返回right or left
+        auto check = [&](int mid)
+            {
+                return citations[citations.size() - mid] >= mid;
+            };
+        int left = 1;
+        int right = citations.size();
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return right;           // 记住最后返回的是 right
     }
 };
