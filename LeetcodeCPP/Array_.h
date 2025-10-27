@@ -527,4 +527,41 @@ public:
         }
         return get<1>(check(right));
     }
+    int splitArray(vector<int>& nums, int k) 
+    {
+        // https://leetcode.cn/problems/split-array-largest-sum/description/
+
+    }
+    int minimizedMaximum(int n, vector<int>& quantities) 
+    {
+        // https://leetcode.cn/problems/minimized-maximum-of-products-distributed-to-any-store/description/
+        // 最小化最大值的模板
+        auto check = [&](int mid)
+            {
+                int record = 0;
+                for (auto i : quantities)
+                {
+                    record += (i + mid - 1) / mid;
+                    if (record > n)
+                        return false;
+                }
+                return true;
+            };
+        int left = 1;
+        int right = *max_element(quantities.begin(), quantities.end());
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+    int minCost(int n, vector<vector<int>>& edges, int k) 
+    {
+        // https://leetcode.cn/problems/minimize-maximum-component-cost/description/
+
+    }
 };
