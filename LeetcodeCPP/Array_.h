@@ -7,6 +7,7 @@
 #include <cctype>
 #include <numeric>      // std::reduce
 #include <ranges>       // ranges::max （C++20 起）
+#include <climits>
 using namespace std;
 
 class Array_
@@ -33,8 +34,7 @@ public:
             {
                 int temp = grid[up][j];
                 grid[up][j] = grid[down][j];
-                grid[down][j] = temp;
-                
+                grid[down][j] = temp;                
             }
             up++;
             down--;
@@ -485,5 +485,46 @@ public:
                 right = mid - 1;
         }
         return right != 0 ? right : -1;
+    }
+    int maxPointsInsideSquare(vector<vector<int>>& points, string s) 
+    {
+        // https://leetcode.cn/problems/maximum-points-inside-the-square/description/
+        // 还可以使用最朴素的切比雪夫距离来做
+        auto check = [&](long mid) -> tuple<bool, int>       // 使用 tuple
+            {
+                int record[26] = {};
+                int sum = 0;
+                for (size_t i = 0; i < points.size(); ++i) 
+                {
+                    bool inCircle = true;
+                    for (int x : points[i])
+                        if (std::abs(x) * 2 > mid) 
+                        { 
+                            inCircle = false; 
+                            break; 
+                        }
+                    if (!inCircle) 
+                        continue;
+                    record[s[i] - 'a']++;
+                    sum++;
+                    if (record[s[i] - 'a'] >= 2) 
+                        return { false, sum };          // 注意这里就算是false也要返回sum
+                }
+                return { true, sum };
+            };
+        long left = -1;
+        long right = INT_MAX;
+        while (left <= right)
+        {
+            long mid = left + (right - left) / 2;
+
+            tuple<bool, int> c = check(mid);
+
+            if (get<0>(c))
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return get<1>(check(right));
     }
 };
