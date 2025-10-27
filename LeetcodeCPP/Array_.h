@@ -420,7 +420,7 @@ public:
     int maximumCandies(vector<int>& candies, long long k) 
     {
         // https://leetcode.cn/problems/maximum-candies-allocated-to-k-children/description/
-        auto check = [&](int mid)
+        /*auto check = [&](int mid)
             {
                 long long sum = 0;
                 for (int i : candies)
@@ -441,6 +441,49 @@ public:
             else
                 right = mid - 1;
         }
-        return right;
+        return right;*/
+    }
+    int maximumLength(string s) 
+    {
+        // https://leetcode.cn/problems/find-longest-special-substring-that-occurs-thrice-ii/description/
+        // 灵神还有复杂度更低的写法 以后记得看
+        auto check = [&](int mid) -> bool
+            {
+                int record[26] = {};        // 数组一定要记得初始化 不是Cs！！
+                int curr[26] = {};
+                // 滑动窗口
+                for (int i = 0; i < s.size(); i++)
+                {
+                    int ch = s[i] - 'a';
+                    // in 
+                    curr[ch]++;
+
+                    int left = i - mid + 1;
+                    if (left < 0)
+                        continue;
+                    
+                    // update
+                    if (curr[ch] == mid)
+                    {
+                        record[ch]++;
+                        if (record[ch] >= 3)
+                            return true;
+                    }
+                    // out 
+                    curr[s[left] - 'a']--;
+                }
+                return false;
+            };
+        int left = 1;
+        int right = s.size();
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return right != 0 ? right : -1;
     }
 };
