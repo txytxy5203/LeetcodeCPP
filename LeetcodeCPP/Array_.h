@@ -5,6 +5,8 @@
 #include <string>
 #include <algorithm>
 #include <cctype>
+#include <numeric>      // std::reduce
+#include <ranges>       // ranges::max （C++20 起）
 using namespace std;
 
 class Array_
@@ -414,5 +416,31 @@ public:
                 right = mid - 1;
         }
         return right;           // 记住最后返回的是 right
+    }
+    int maximumCandies(vector<int>& candies, long long k) 
+    {
+        // https://leetcode.cn/problems/maximum-candies-allocated-to-k-children/description/
+        auto check = [&](int mid)
+            {
+                long long sum = 0;
+                for (int i : candies)
+                {
+                    sum += i / mid;
+                }
+                return sum >= k;
+            };
+
+        long long avg = reduce(candies.begin(), candies.end(), 0LL) / k;
+        int left = 1, right = min((long long)ranges::max(candies), avg) + 1;
+
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return right;
     }
 };
