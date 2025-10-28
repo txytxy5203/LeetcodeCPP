@@ -8,6 +8,7 @@
 #include <numeric>      // std::reduce
 #include <ranges>       // ranges::max （C++20 起）
 #include <climits>
+#include <queue>
 using namespace std;
 
 class Array_
@@ -562,6 +563,64 @@ public:
     int minCost(int n, vector<vector<int>>& edges, int k) 
     {
         // https://leetcode.cn/problems/minimize-maximum-component-cost/description/
-
+        /*auto countComponent = [&]()
+            {
+                int n = edges.size() + 1;
+                vector<vector<int>> adj(n);
+                for (auto& e : edges)
+                {
+                    adj[e[0]].push_back(e[1]);
+                    adj[e[1]].push_back(e[0]);
+                }
+            };
+        auto check = [&](int mid) -> bool
+            {
+                
+            };
+        sort(edges.begin(), edges.end(), [](const auto& a, const auto& b)
+            {
+                return a[2] < b[2];
+            });
+        int left = 0;
+        int right = edges.size() - 1;
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return edges[left][2];*/
+    }
+    int minimumSize(vector<int>& nums, int maxOperations) 
+    {
+        // https://leetcode.cn/problems/minimum-limit-of-balls-in-a-bag/description/
+        auto check = [&](int mid) -> bool
+            {
+                int count = 0;
+                for (auto num : nums)
+                {
+                    if (num > mid)
+                    {
+                        count += (num - 1) / mid;           // 对于 num 要切分多少次才能使得 每一堆都小于等于 mid呢  
+                        if (count > maxOperations)
+                            return false;
+                    }
+                }
+                return true;
+            };
+        
+        int left = 1;
+        int right = *max_element(nums.begin(), nums.end());
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
     }
 };
