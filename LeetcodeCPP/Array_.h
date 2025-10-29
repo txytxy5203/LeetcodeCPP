@@ -596,6 +596,7 @@ public:
     int minimumSize(vector<int>& nums, int maxOperations) 
     {
         // https://leetcode.cn/problems/minimum-limit-of-balls-in-a-bag/description/
+        // 这题后续还得再看看
         auto check = [&](int mid) -> bool
             {
                 int count = 0;
@@ -613,6 +614,65 @@ public:
         
         int left = 1;
         int right = *max_element(nums.begin(), nums.end());
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+    int maxPossibleScore(vector<int>& start, int d) 
+    {
+        // https://leetcode.cn/problems/maximize-score-of-numbers-in-ranges/description/
+        // 这题还是没有看懂
+        sort(start.begin(), start.end());      
+        auto check = [&](int score)
+            {
+                // 给定mid 使得任意两个数之差不小于mid
+                long long x = LLONG_MIN;
+                for (int s : start) {
+                    x = max(x + score, (long long)s); // x 必须 >= 区间左端点 s
+                    if (x > s + d) {
+                        return false;
+                    }
+                }
+                return true;
+            };
+        int left = 0;
+        int right = INT_MAX;
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                left = mid + 1;
+            else
+                right = mid - 1;
+        }
+        return right;
+    }
+    int kthSmallest(vector<vector<int>>& matrix, int k) 
+    {
+        // https://leetcode.cn/problems/kth-smallest-element-in-a-sorted-matrix/description/
+        auto check = [&](int mid) -> bool
+            {
+                int count = 0;
+                for (auto v : matrix)
+                {
+                    for (auto num : v)
+                    {
+                        if (num <= mid)
+                            count++;
+                        if (count >= k)
+                            return true;
+                    }
+                }
+                return false;
+            };
+        int left = matrix[0][0];
+        int right = matrix[matrix.size() - 1][matrix[0].size() - 1];
         while (left <= right)
         {
             int mid = left + (right - left) / 2;

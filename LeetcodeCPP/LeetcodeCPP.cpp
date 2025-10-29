@@ -8,8 +8,8 @@ int main() {
     
     Array_ array;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
-    vector<int> v = { 4,7,5 };
-    auto tag = array.maximumLength(s);
+    vector<int> v = { 2,6,13,13 };
+    auto tag = array.maxPossibleScore(v, 5);
     /*for (int i : tag)
     {
         cout << i << endl;
