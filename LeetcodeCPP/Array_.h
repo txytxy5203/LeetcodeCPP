@@ -743,4 +743,46 @@ public:
         }
         return left;
     }
+    int smallestDistancePair(vector<int>& nums, int k) 
+    {
+        // https://leetcode.cn/problems/find-k-th-smallest-pair-distance/description/
+        // 居然一次就过了 happy
+        auto check = [&](int mid)
+            {
+                // 距离的绝对值小于等于mid的  有k个就行了
+                int count = 0;
+                int left = 0;
+                // 双指针  不定长的滑动窗口
+                for (int i = 1; i < nums.size(); i++)
+                {
+                    // in
+                    
+                    // out
+                    while (abs(nums[i] - nums[left]) > mid && left < i)
+                    {
+                        left++;
+                    }
+
+                    // update
+                    if (abs(nums[i] - nums[left]) <= mid)
+                        count += i - left;
+                    if (count >= k)
+                        return true;
+                }
+                return false;
+            };
+
+        sort(nums.begin(), nums.end());
+        int left = 0;
+        int right = nums[nums.size() - 1] - nums[0];
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
 };
