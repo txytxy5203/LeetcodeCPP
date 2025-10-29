@@ -656,23 +656,83 @@ public:
     int kthSmallest(vector<vector<int>>& matrix, int k) 
     {
         // https://leetcode.cn/problems/kth-smallest-element-in-a-sorted-matrix/description/
+        int n = matrix.size();
         auto check = [&](int mid) -> bool
             {
                 int count = 0;
-                for (auto v : matrix)
+                int i = 0;
+                int j = n - 1;
+                while (i < n && j >= 0 && count < k)            // 这里一定要利用好矩阵是有一定顺序的 这个信息
                 {
-                    for (auto num : v)
+                    if (matrix[i][j] > mid)
                     {
-                        if (num <= mid)
-                            count++;
-                        if (count >= k)
-                            return true;
+                        j--;
+                    }
+                    else
+                    {
+                        count += j + 1;
+                        i++;
                     }
                 }
-                return false;
+                return count >= k;
+
             };
         int left = matrix[0][0];
-        int right = matrix[matrix.size() - 1][matrix[0].size() - 1];
+        int right = matrix[n - 1][n - 1];
+        while (left <= right)
+        {
+            int mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left;
+    }
+    int findKthNumber(int m, int n, int k) 
+    {
+        // https://leetcode.cn/problems/kth-smallest-number-in-multiplication-table/description/
+        
+        #pragma region 没有优化的
+        //auto check = [&](int mid) -> bool
+                //    {
+                //        int count = 0;
+                //        int i = 0;
+                //        int j = n - 1;
+                //        while (i < m && j >= 0 && count < k)            // 这里一定要利用好矩阵是有一定顺序的 这个信息
+                //        {
+                //            if ((i + 1) * (j + 1) > mid)
+                //            {
+                //                j--;
+                //            }
+                //            else
+                //            {
+                //                count += j + 1;
+                //                i++;
+                //            }
+                //        }
+                //        return count >= k;
+
+                //    };
+        #pragma endregion
+#pragma region 优化
+        auto check = [&](int mid) -> bool 
+            {
+                // 因为第 i 行都是i 的倍数       
+                // 一定要利用好题目的所有信息 
+                // 都是关键
+                int count = 0;
+                for (int i = 1; i <= m; i++)    
+                {
+                    count += min(mid / i, n);   
+                }
+                return count >= k;
+            };
+#pragma endregion
+
+        
+        int left = 1;
+        int right = n * m;
         while (left <= right)
         {
             int mid = left + (right - left) / 2;
