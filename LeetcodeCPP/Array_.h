@@ -9,6 +9,8 @@
 #include <ranges>       // ranges::max （C++20 起）
 #include <climits>
 #include <queue>
+#include <unordered_map>
+#include <map>
 using namespace std;
 
 class Array_
@@ -764,8 +766,8 @@ public:
                     }
 
                     // update
-                    if (abs(nums[i] - nums[left]) <= mid)
-                        count += i - left;
+                    if (abs(nums[i] - nums[left]) <= mid)       
+                        count += i - left;                      // 这里的update一定要注意
                     if (count >= k)
                         return true;
                 }
@@ -784,5 +786,98 @@ public:
                 left = mid + 1;
         }
         return left;
+    }
+    int nthMagicalNumber(int n, int a, int b) 
+    {
+        // https://leetcode.cn/problems/nth-magical-number/description/
+        // 这题也要再看看
+        long long lcm = std::lcm(a, b);
+        auto check = [&](long long mid) -> bool
+            {
+                long long countA = mid / a;
+                long long countB = mid / b;
+                long long countRepeat = mid / lcm;
+                return (countA + countB - countRepeat) >= n;
+            };
+        long long left = 0;
+        long long right = max(a, b) * 1LL * n;
+        
+        while (left <= right)
+        {
+            long long mid = left + (right - left) / 2;
+            if (check(mid))
+                right = mid - 1;
+            else
+                left = mid + 1;
+        }
+        return left % 1'000'000'007;
+    }
+    vector<int> twoSum(vector<int>& nums, int target) 
+    {
+        // https://leetcode.cn/problems/two-sum/description/
+        // 枚举右  维护左      双变量问题
+        unordered_map<int, int> dict;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (dict.find(target - nums[i]) != dict.end()) 
+            {
+                return { dict[target - nums[i]], i };
+            }
+            dict[nums[i]] = i;
+        }     
+    }
+    int findMaxK(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/largest-positive-integer-that-exists-with-its-negative/description/
+        unordered_set<int> set;
+        int ans = -1;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (set.find(-nums[i]) != set.end())
+            {
+                ans = max(ans, abs(nums[i]));
+            }
+            set.insert(nums[i]);
+        }
+        return ans;
+    }
+    int numIdenticalPairs(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/number-of-good-pairs/description/
+        unordered_map<int, int> dict;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            if (dict.find(nums[i]) != dict.end())
+            {
+                ans += dict[nums[i]];
+                dict[nums[i]]++;
+                continue;
+            }
+            dict[nums[i]] = 1;
+        }
+        return ans;
+    }
+    long long interchangeableRectangles(vector<vector<int>>& rectangles) 
+    {
+        // https://leetcode.cn/problems/number-of-pairs-of-interchangeable-rectangles/description/
+        map<pair<int, int>, long> dict;        
+        // 这个map是红黑树 如果使用unordered_map 会显示tuple不是可哈希的类型
+        long long ans = 0;
+        for (int i = 0; i < rectangles.size(); i++)
+        {
+            int width = rectangles[i][0];
+            int height = rectangles[i][1];
+            int g = gcd(width, height);
+            pair<int, int> rate = { width / g, height / g };
+            if (dict.find(rate) != dict.end())
+            {
+                ans += dict[rate];
+                dict[rate]++;
+                continue;
+            }
+            dict[rate] = 1;
+        }
+        return ans;
     }
 };
