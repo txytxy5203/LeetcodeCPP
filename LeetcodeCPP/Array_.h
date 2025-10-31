@@ -880,4 +880,37 @@ public:
         }
         return ans;
     }
+    int numPairsDivisibleBy60(vector<int>& time) 
+    {
+        // https://leetcode.cn/problems/pairs-of-songs-with-total-durations-divisible-by-60/description/
+        // 模板
+        unordered_map<int, int> cnt;   // 余数出现次数
+        long long ans = 0;
+        for (int t : time) {
+            int r = t % 60;
+            int need = (r == 0) ? 0 : 60 - r;
+            ans += cnt[need];          // 先查旧计数
+            cnt[r]++;                  // 再存新余数
+        }
+        return ans;
+    }
+    long long countCompleteDayPairs(vector<int>& hours) 
+    {
+        // https://leetcode.cn/problems/count-pairs-that-form-a-complete-day-ii/description/
+        map<int, long> dict;
+        long long ans = 0;
+        for (int i = 0; i < hours.size(); i++)
+        {
+            int r = hours[i] % 24;
+            int need = (r == 0) ? 0 : 24 - r;
+            ans += dict[need];
+            dict[r]++;
+        }
+        return ans;
+    }
+    int countBeautifulPairs(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/number-of-beautiful-pairs/description/
+        
+    }
 };
