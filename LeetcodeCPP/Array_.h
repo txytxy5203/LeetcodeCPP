@@ -954,4 +954,26 @@ public:
         }
         return ans != INT_MAX ? ans : -1;
     }
+    int specialTriplets(vector<int>& nums)
+    {
+        // https://leetcode.cn/problems/count-special-triplets/description/
+        int ans = 0;
+        int n = nums.size();
+        vector<int> suf(n);
+        map<int, int> dict;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            suf[i] += dict[2 * nums[i]];
+            dict[nums[i]]++;
+        }
+        dict.clear();
+
+        for (int i = 0; i < n; i++)
+        {
+            ans += (dict[2 * nums[i]] * suf[i]) % 1'000'000'007;
+
+            dict[nums[i]]++;
+        }
+        return ans ;
+    }
 };
