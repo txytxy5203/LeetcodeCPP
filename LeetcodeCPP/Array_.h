@@ -911,6 +911,22 @@ public:
     int countBeautifulPairs(vector<int>& nums) 
     {
         // https://leetcode.cn/problems/number-of-beautiful-pairs/description/
-        
+        map<int, int> dict;
+        int ans = 0;
+        for (int i = 0; i < nums.size(); i++)
+        {
+            int curr = nums[i] % 10;
+            for (int j = 1; j < 10; j++)
+            {
+                if (gcd(j, curr) == 1)
+                    ans += dict[j];
+            }
+            while (nums[i] >= 10)       // TODO 取第一个数字就这么取
+            {
+                nums[i] /= 10;
+            }
+            dict[nums[i]]++;
+        }
+        return ans;
     }
 };
