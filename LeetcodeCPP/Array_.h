@@ -929,4 +929,29 @@ public:
         }
         return ans;
     }
+    int minimumSum(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/minimum-sum-of-mountain-triplets-ii/description/
+        // 经典的来啦 在一个不断减少的集合中一直能够得到最小值
+        // 后缀最小值
+        int ans = INT_MAX;
+        int minValue = nums[0];
+        int n = nums.size();
+
+        // 先计算后缀最小值
+        vector<int> suf(n);
+        suf[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; i--)
+        {
+            suf[i] = min(nums[i], suf[i + 1]);
+        }
+
+        for (int i = 1; i < n - 1; i++)
+        {
+            if (minValue < nums[i] && suf[i + 1] < nums[i])
+                ans = min(ans, minValue + nums[i] + suf[i + 1]);
+            minValue = min(minValue, nums[i]);
+        }
+        return ans != INT_MAX ? ans : -1;
+    }
 };
