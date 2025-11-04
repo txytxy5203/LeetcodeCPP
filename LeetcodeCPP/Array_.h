@@ -11,6 +11,7 @@
 #include <queue>
 #include <unordered_map>
 #include <map>
+#include <set>
 using namespace std;
 
 class Array_
@@ -963,7 +964,7 @@ public:
         map<int, int> dict;
         for (int i = n - 1; i >= 0; i--)
         {
-            suf[i] += dict[2 * nums[i]];
+            suf[i] += dict[2 * nums[i]];            // CPP中不存在的key会默认添加一个 value为类型的默认值
             dict[nums[i]]++;
         }
         dict.clear();
@@ -975,5 +976,35 @@ public:
             dict[nums[i]]++;
         }
         return ans ;
+    }
+    int countPalindromicSubsequence(string s) 
+    {
+        // https://leetcode.cn/problems/unique-length-3-palindromic-subsequences/description/
+        int front[26] = {};
+        int behind[26] = {};
+        int n = s.size();
+        int ans = 0;
+        set<pair<char, char>> set;
+        front[s[0] - 'a']++;
+        for (int i = n - 1; i >= 2; i--)
+        {
+            behind[s[i] - 'a']++;
+        }
+        for (int i = 1; i < n - 1; i++)
+        {
+            for (int j = 0; j < 26; j++)
+            {
+                int num = min(front[j], behind[j]);
+                if (num != 0 && set.find({ s[i], char('a' + j) }) == set.end())
+                {
+                    ans += 1;
+                    set.insert({ s[i], char('a' + j) });
+                }
+            }
+            
+            front[s[i] - 'a']++;
+            behind[s[i + 1] - 'a']--;
+        }
+        return ans;
     }
 };

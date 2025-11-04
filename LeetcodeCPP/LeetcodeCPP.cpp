@@ -9,7 +9,7 @@ int main() {
     Array_ array;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
     vector<int> v = { 2,6,13,13 };
-    auto tag = array.nthMagicalNumber(1000000000, 40000, 40000);
+    auto tag = array.countPalindromicSubsequence("bbcbaba");
     /*for (int i : tag)
     {
         cout << i << endl;
