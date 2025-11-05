@@ -1007,4 +1007,80 @@ public:
         }
         return ans;
     }
+    vector<vector<int>> sortMatrix(vector<vector<int>>& grid) 
+    {
+        // https://leetcode.cn/problems/sort-matrix-by-diagonals/description/
+        // 遍历矩阵的对角线
+        int m = grid.size();
+        int n = grid[0].size();
+
+        for (int k = 1; k < m + n; k++)     // k = i - j + n
+        {
+			vector<int> diagonal;
+			for (int i = 0; i < m; i++)
+			{
+				int j = i - k + n;
+				if (j >= 0 && j < n)        // 相比于灵神的写法 我觉得这个写法更清晰一些
+				{
+					diagonal.push_back(grid[i][j]);
+				}
+			}
+            if (k < n)
+                sort(diagonal.begin(), diagonal.end());
+            else
+                sort(diagonal.begin(), diagonal.end(), greater<int>());
+			int index = 0;
+			for (int i = 0; i < m; i++)
+			{
+				int j = i - k + n;
+				if (j >= 0 && j < n)
+				{
+					grid[i][j] = diagonal[index++];
+				}
+			}
+        }
+        return grid;
+    }
+    vector<vector<int>> differenceOfDistinctValues(vector<vector<int>>& grid) 
+    {
+        // https://leetcode.cn/problems/difference-of-number-of-distinct-values-on-diagonals/description/
+		int m = grid.size();
+		int n = grid[0].size();
+        for (int k = 1; k < m + n; k++)
+        {
+            // 对角线遍历
+            int record[10] = {};
+			int front[10] = {};
+            // 前缀和
+            for (int i = 0; i < m; i++)
+            {
+                int j = i - k + n;
+                if (j >= 0 && j < n)
+                {
+                    record[grid[i][j]]++;
+                }
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                int j = i - k + n;
+                if (j >= 0 && j < n)
+                {
+					record[grid[i][j]]--;
+					int frontCount = 0;
+					int behindCount = 0;
+					for (int num = 0; num < 10; num++)
+					{
+						if (front[num] > 0)
+							frontCount++;
+						if (record[num] > 0)
+							behindCount++;
+					}
+					grid[i][j] = abs(frontCount - behindCount);
+					front[grid[i][j]]++;
+                }
+            }
+        }
+        return grid;
+    }
 };
