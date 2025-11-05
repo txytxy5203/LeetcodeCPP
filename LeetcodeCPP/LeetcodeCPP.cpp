@@ -9,10 +9,11 @@ int main() {
     Array_ array;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
     vector<int> v = { 2,6,13,13 };
-    vector<vector<int>> grid = { {1,7,3},
-                                 {9,8,2},
-                                 {4,5,6}};
-    auto tag = array.sortMatrix(grid);
+    vector<vector<int>> grid = {{5,50,39,37},
+                                {2,19,36,26},
+                                {27,3,23,10},
+                                {20,33,8,39 } };
+    auto tag = array.differenceOfDistinctValues(grid);
 
     for (auto i : tag)
     {

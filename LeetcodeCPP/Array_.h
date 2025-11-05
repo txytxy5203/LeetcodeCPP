@@ -1049,8 +1049,8 @@ public:
         for (int k = 1; k < m + n; k++)
         {
             // 对角线遍历
-            int record[10] = {};
-			int front[10] = {};
+            int record[51] = {};        // grid中最大的数字就是50 所以开51即可
+			int front[51] = {};
             // 前缀和
             for (int i = 0; i < m; i++)
             {
@@ -1069,15 +1069,16 @@ public:
 					record[grid[i][j]]--;
 					int frontCount = 0;
 					int behindCount = 0;
-					for (int num = 0; num < 10; num++)
+					for (int num = 0; num < 51; num++)
 					{
 						if (front[num] > 0)
 							frontCount++;
 						if (record[num] > 0)
 							behindCount++;
 					}
+                    int temp = grid[i][j];
 					grid[i][j] = abs(frontCount - behindCount);
-					front[grid[i][j]]++;
+					front[temp]++;
                 }
             }
         }
