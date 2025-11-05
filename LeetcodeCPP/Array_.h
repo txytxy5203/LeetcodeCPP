@@ -1084,4 +1084,34 @@ public:
         }
         return grid;
     }
+    vector<vector<int>> diagonalSort(vector<vector<int>>& mat) 
+    {
+        // https://leetcode.cn/problems/sort-the-matrix-diagonally/description/
+        int m = mat.size();
+        int n = mat[0].size();
+        for (int k = 1; k < m + n; k++)
+        {
+            // 对角线遍历
+            vector<int> nums;
+            for (int i = 0; i < m; i++)
+            {
+                int j = i - k + n;
+                if (j >= 0 && j < n)
+                {
+					nums.push_back(mat[i][j]);
+                }
+            }
+			sort(nums.begin(), nums.end());
+			int index = 0;              // 直接使用 index 来记录排序后的位置 不就行了吗  怎么这么捞？
+            for (int i = 0; i < m; i++)
+            {
+                int j = i - k + n;
+                if (j >= 0 && j < n)
+                {
+                    mat[i][j] = nums[index++];
+                }
+            }
+        }
+        return mat;
+    }
 };
