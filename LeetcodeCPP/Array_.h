@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include <map>
 #include <set>
+#include <stack>
 using namespace std;
 
 class Array_
@@ -1113,5 +1114,24 @@ public:
             }
         }
         return mat;
+    }
+    vector<string> buildArray(vector<int>& target, int n) 
+    {
+        // https://leetcode.cn/problems/build-an-array-with-stack-operations/description/
+		vector<string> ans;
+        // 脑子机灵一点
+        int index = 1;
+        for (int i : target)
+        {
+            while (index < i)
+            {
+                ans.push_back("Push");
+                ans.push_back("Pop");
+                index++;
+            }
+			ans.push_back("Push");
+            index++;
+        }
+        return ans;
     }
 };
