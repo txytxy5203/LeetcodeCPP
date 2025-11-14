@@ -1134,4 +1134,55 @@ public:
         }
         return ans;
     }
+    int calPoints(vector<string>& operations) 
+    {
+        // https://leetcode.cn/problems/baseball-game/description/
+		vector<int> record;
+        for (auto s : operations)
+        {
+            if (s == "D")
+            {
+                record.push_back(record.back() * 2);
+            }
+            else if (s == "C")
+            {
+                record.erase(record.end());
+            }
+            else if (s == "+")
+            {
+                record.push_back(*(record.end() - 1) + *(record.end() - 2));
+            }
+            else
+            {
+                record.push_back(stoi(s));  // string to int
+            }
+        }
+        return accumulate( record.begin(), record.end(), 0);
+    }
+    string clearStars(string s) 
+    {
+        // https://leetcode.cn/problems/lexicographically-minimum-string-after-removing-stars/description/
+        stack<int> stacks[26];
+        for (int i = 0; i < s.size(); i++)
+        {
+            if (s[i] == '*')
+            {
+				for (auto& st : stacks)
+				{
+                    if (!st.empty())
+                    {
+                        s[st.top()] = '*';
+                        st.pop();
+						break;
+                    }
+				}
+            }
+            else
+            {
+				stacks[s[i] - 'a'].push(i);
+            }
+        }
+        s.erase(remove(s.begin(), s.end(), '*'), s.end());
+        return s;
+    }
 };
