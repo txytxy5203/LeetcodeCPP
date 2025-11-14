@@ -21,9 +21,15 @@
     <ClCompile Include="Array_.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MinStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array_.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MinStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

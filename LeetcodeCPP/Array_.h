@@ -1162,6 +1162,7 @@ public:
     string clearStars(string s) 
     {
         // https://leetcode.cn/problems/lexicographically-minimum-string-after-removing-stars/description/
+        // 这么简单的想法为什么就想不到呢？  多想想 没那么难
         stack<int> stacks[26];
         for (int i = 0; i < s.size(); i++)
         {
