@@ -1188,8 +1188,55 @@ public:
     }
     vector<int> exclusiveTime(int n, vector<string>& logs) {
         // https://leetcode.cn/problems/exclusive-time-of-functions/description/
-		vector<int> ans;
-		
-		
+		vector<int> ans(n, 0);
+		stack<pair<int, int>> stk;      // 函数id  开始时间
+		for (auto& log : logs)          // 直接是引用
+		{
+			int pos1 = log.find_first_of(':');
+			int pos2 = log.find_last_of(':');
+			int id = stoi(log.substr(0, pos1));
+			string type = log.substr(pos1 + 1, pos2 - pos1 - 1);
+			int time = stoi(log.substr(pos2 + 1));
+			if (type == "start")
+			{
+				if (!stk.empty())
+				{
+					ans[stk.top().first] += time - stk.top().second;
+				}
+				stk.push({ id, time });
+			}
+			else
+			{
+				auto [funcId, startTime] = stk.top();
+				stk.pop();
+				ans[funcId] += time - startTime + 1;
+				if (!stk.empty())
+				{
+					stk.top().second = time + 1;
+				}
+			}
+		}
+		return ans;		
+    }
+    int minLength(string s) 
+    {
+        // https://leetcode.cn/problems/minimum-string-length-after-removing-substrings/description/
+		stack<char> stk;
+        for (auto ch : s)
+        {
+            char top = stk.empty() ? ' ' : stk.top();
+            if (ch == 'B' && top == 'A')
+            {
+                stk.pop();
+                continue;
+            }
+            else if (ch == 'D' && top == 'C')
+            {
+                stk.pop();
+                continue;
+            }
+            stk.push(ch);
+        }
+        return stk.size();
     }
 };
