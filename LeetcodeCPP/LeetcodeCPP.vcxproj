@@ -132,11 +132,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Array_.cpp" />
+    <ClCompile Include="CustomStack.cpp" />
     <ClCompile Include="LeetcodeCPP.cpp" />
     <ClCompile Include="MinStack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array_.h" />
+    <ClInclude Include="CustomStack.h" />
     <ClInclude Include="MinStack.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

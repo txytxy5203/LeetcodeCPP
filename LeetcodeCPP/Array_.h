@@ -1186,4 +1186,10 @@ public:
         s.erase(remove(s.begin(), s.end(), '*'), s.end());
         return s;
     }
+    vector<int> exclusiveTime(int n, vector<string>& logs) {
+        // https://leetcode.cn/problems/exclusive-time-of-functions/description/
+		vector<int> ans;
+		
+		
+    }
 };
