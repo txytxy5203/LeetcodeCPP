@@ -1239,4 +1239,18 @@ public:
         }
         return stk.size();
     }
+    string removeDuplicates(string s) 
+    {
+        // https://leetcode.cn/problems/remove-all-adjacent-duplicates-in-string/description/
+        // 优雅 太优雅了   cpp所有的数据结构都有一些相似 要利用好这些特性
+        string ans;
+        for (auto ch : s)
+        {
+            if (!ans.empty() && ans.back() == ch)
+                ans.pop_back();
+            else
+                ans.push_back(ch);
+        }
+        return ans;
+    }
 };
