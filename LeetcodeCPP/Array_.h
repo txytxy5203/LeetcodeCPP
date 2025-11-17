@@ -1266,4 +1266,23 @@ public:
         }
         return ans;
     }
+    bool isValid(string s) 
+    {
+        // https://leetcode.cn/problems/valid-parentheses/description/
+        unordered_map<char, char> map;
+        map.insert({ ')','(' });
+        map.insert({ '}','{' });
+        map.insert({ ']','[' });
+        stack<char> stk;
+        for (auto ch : s)
+        {
+            if (!stk.empty() && stk.top() == map[ch])
+            {
+                stk.pop();
+                continue;
+            }                
+            stk.push(ch);
+        }
+        return stk.empty();
+    }
 };
