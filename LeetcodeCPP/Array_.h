@@ -1253,4 +1253,17 @@ public:
         }
         return ans;
     }
+    string makeGood(string s) 
+    {
+        // https://leetcode.cn/problems/make-the-string-great/description/
+        string ans;
+        for (auto ch : s)
+        {
+            if (!ans.empty() && (ans.back() == ch + 32 || ans.back() == ch - 32))
+                ans.pop_back();
+            else
+                ans.push_back(ch);
+        }
+        return ans;
+    }
 };
