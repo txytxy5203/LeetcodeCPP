@@ -1298,4 +1298,48 @@ public:
         }
         return stk.size();
     }
+    string removeOuterParentheses(string s) 
+    {
+        // https://leetcode.cn/problems/remove-outermost-parentheses/description/
+        string ans;
+        stack<char> stk;
+        for (auto ch : s)
+        {
+            if (stk.empty())
+            {
+                stk.push(ch);
+            }
+            else
+            {         
+                if (ch == ')')
+                {
+                    if(stk.size() != 1)
+                        ans.push_back(ch);
+                    stk.pop();
+                }
+                else
+                {
+                    ans.push_back(ch);
+                    stk.push(ch);
+                }
+            }
+        }
+        return ans;
+    }
+    string removeOuterParentheses2(string s)
+    {
+        // ai优化版本
+        string ans;
+        ans.reserve(s.size());          // 预分配，减少重分配
+        int depth = 0;                  // 当前括号深度
+        for (char ch : s) {
+            if (ch == '(') {
+                if (depth++ > 0) ans.push_back(ch); // 非外层
+            }
+            else { // ch == ')'
+                if (--depth > 0) ans.push_back(ch); // 非外层
+            }
+        }
+        return ans;
+    }
 };
