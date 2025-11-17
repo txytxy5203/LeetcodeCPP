@@ -1285,4 +1285,17 @@ public:
         }
         return stk.empty();
     }
+    int minAddToMakeValid(string s) 
+    {
+        // https://leetcode.cn/problems/minimum-add-to-make-parentheses-valid/description/
+        stack<char> stk;
+        for (auto ch : s)
+        {
+            if (!stk.empty() && stk.top() == '(' && ch == ')')
+                stk.pop();
+            else
+                stk.push(ch);
+        }
+        return stk.size();
+    }
 };
