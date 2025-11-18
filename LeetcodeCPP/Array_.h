@@ -1342,4 +1342,39 @@ public:
         }
         return ans;
     }
+    int maxDepth(string s) 
+    {
+        // https://leetcode.cn/problems/maximum-nesting-depth-of-the-parentheses/description/
+        int ans = 0;
+        stack<char> stk;
+        for (auto ch : s)
+        {
+            if (ch == '(')
+                stk.push(ch);
+            else if (ch == ')')
+            {
+                ans = max(ans, (int)stk.size());
+                stk.pop();
+            }
+        }
+        return ans;
+    }
+    int maxDepth2(string s)
+    {
+        // https://leetcode.cn/problems/maximum-nesting-depth-of-the-parentheses/description/
+        // 思想上的 栈 也可以  而且更好
+        int ans = 0;
+        int curr = 0;
+        for (auto ch : s)
+        {
+            if (ch == '(')
+                curr++;
+            else if (ch == ')')
+            {
+                ans = max(ans, curr);
+                curr--;
+            }
+        }
+        return ans;
+    }
 };
