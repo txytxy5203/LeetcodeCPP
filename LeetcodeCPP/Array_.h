@@ -1377,4 +1377,61 @@ public:
         }
         return ans;
     }
+    int clumsy(int n) 
+    {
+        // https://leetcode.cn/problems/clumsy-factorial/description/
+        // 对于所有表达式类问题都可以使用下面的框架
+        // 双栈法
+        // https://leetcode.cn/problems/clumsy-factorial/solutions/693194/gong-shui-san-xie-tong-yong-biao-da-shi-nngfp/
+        // 还可以使用打表法 简单无脑
+        
+        stack<int> nums;
+        stack<char> ops;
+        map<char, int> dict = {
+            {'*', 2},
+            {'/', 2},
+            {'+', 1},
+            {'-', 1}
+        };
+        char cs[4] = {'*','/','+','-'};
+
+        auto calc = [&]()
+            {
+                int b = nums.top();
+                nums.pop();
+                int a = nums.top();
+                nums.pop();
+                char op = ops.top();
+                ops.pop();
+
+                int ans = 0;
+                if (op == '*')
+                    ans = a * b;
+                else if (op == '-')
+                    ans = a - b;
+                else if (op == '/')
+                    ans = a / b;
+                else if (op == '+')
+                    ans = a + b;
+                nums.push(ans);
+            };
+
+        for (int i = n, j = 0; i >= 1; i--, j++)
+        {
+            char op = cs[j % 4];
+            nums.push(i);
+            while (!ops.empty() && dict[ops.top()] >= dict[op])
+            {
+                calc();
+            }
+            if (i != 1)
+                ops.push(op);
+        }
+
+        while (!ops.empty())
+        {
+            calc();
+        }
+        return nums.top();    
+    }
 };
