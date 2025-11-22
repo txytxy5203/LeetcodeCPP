@@ -1434,4 +1434,103 @@ public:
         }
         return nums.top();    
     }
+    int calculate(string s) 
+    {
+        // https://leetcode.cn/problems/basic-calculator/description/
+        stack<int> nums;
+        stack<char> ops;
+        unordered_map<char, int> prio{ {'*',2},{'/',2},{'+',1},{'-',1} }; // 0级：括号
+        auto calc = [&]() {
+            int b = nums.top(); nums.pop();
+            int a = nums.top(); nums.pop();
+            char op = ops.top(); ops.pop();
+            switch (op) {
+            case '+': nums.push(a + b); break;
+            case '-': nums.push(a - b); break;
+            case '*': nums.push(a * b); break;
+            case '/': nums.push(a / b); break;
+            }
+            };
+
+        int i = 0, n = s.size();
+        while (i < n) {
+            char c = s[i];
+            if (c == ' ') { ++i; continue; }
+            if (c == '(') { ops.push(c); ++i; continue; }
+            if (c == ')') {
+                while (ops.top() != '(') calc();
+                ops.pop(); // 弹出 '('
+                ++i;
+                continue;
+            }
+            if (isdigit(c)) {
+                int num = 0;
+                while (i < n && isdigit(s[i])) 
+                    num = num * 10 + (s[i++] - '0');
+                nums.push(num);
+                continue;
+            }
+            // 运算符
+            while (!ops.empty() 
+                && ops.top() != '(' 
+                && prio[ops.top()] >= prio[c]) 
+                calc();
+            ops.push(c);
+            ++i;
+        }
+        while (!ops.empty()) calc();
+        return nums.top();
+    }
+    vector<int> dailyTemperatures(vector<int>& temperatures) 
+    {
+        // https://leetcode.cn/problems/daily-temperatures/description/
+        // 单调栈   忘记了别怕 想想就想起来了
+        // 栈内的数据是有序的！！！
+        // 我这个是从左到右的顺序 也可以从右到左
+        stack<int> stk;
+        int n = temperatures.size();
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++)
+        {
+            while (!stk.empty() && temperatures[stk.top()] < temperatures[i])
+            {
+                int index = stk.top();
+                stk.pop();
+                ans[index] = i - index;         // 直接在这里完成
+            }
+            stk.push(i);
+        }
+
+        while (!stk.empty())
+        {
+            int index = stk.top();
+            stk.pop();
+            ans[index] = 0;
+        }
+        return ans;
+    }
+    vector<int> finalPrices(vector<int>& prices) 
+    {
+        // https://leetcode.cn/problems/final-prices-with-a-special-discount-in-a-shop/description/
+        int n = prices.size();
+        stack<int> stk;
+        vector<int> ans(n);
+        for (int i = 0; i < n; i++)
+        {
+            while (!stk.empty() && prices[stk.top()] >= prices[i])
+            {
+                int index = stk.top();
+                stk.pop();
+                ans[index] = prices[index] - prices[i];
+            }
+            stk.push(i);
+        }
+        while (!stk.empty())
+        {
+            int index = stk.top();
+            stk.pop();
+            ans[index] = prices[index];
+        }
+        return ans;
+    }
 };
