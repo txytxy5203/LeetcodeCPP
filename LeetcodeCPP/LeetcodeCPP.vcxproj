@@ -132,11 +132,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Array_.cpp" />
+    <ClCompile Include="ListNode_.cpp" />
     <ClCompile Include="Stack_.cpp" />
     <ClCompile Include="LeetcodeCPP.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array_.h" />
+    <ClInclude Include="ListNode_.h" />
     <ClInclude Include="Stack_.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

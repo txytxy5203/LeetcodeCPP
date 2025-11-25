@@ -24,12 +24,18 @@
     <ClCompile Include="Stack_.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ListNode_.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array_.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Stack_.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ListNode_.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
