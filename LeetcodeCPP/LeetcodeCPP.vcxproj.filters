@@ -21,10 +21,7 @@
     <ClCompile Include="Array_.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="MinStack.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CustomStack.cpp">
+    <ClCompile Include="Stack_.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +29,7 @@
     <ClInclude Include="Array_.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MinStack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CustomStack.h">
+    <ClInclude Include="Stack_.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

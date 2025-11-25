@@ -1,5 +1,5 @@
 #include "Array_.h"
-#include "MinStack.h"
+#include "Stack_.h"
 using namespace std;
 
 
@@ -8,7 +8,7 @@ using namespace std;
 int main() {
     
     Array_ array;
-    MinStack minStack;
+    StockSpanner stk;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
     vector<int> v = { 73,74,75,71,69,72,76,73 };
     vector<vector<int>> grid = {{5,50,39,37},
@@ -26,8 +26,13 @@ int main() {
         cout << endl;
     }*/
     //cout << minStack.index << endl;
-    auto ans = array.dailyTemperatures(v);
-    for (auto i : ans)
-        cout << i << endl;
+
+    cout << stk.next(31) << endl;
+    cout << stk.next(41) << endl;
+    cout << stk.next(48) << endl;
+    cout << stk.next(59) << endl;
+    cout << stk.next(79) << endl;/*
+    cout << stk.next(75) << endl;
+    cout << stk.next(85) << endl;*/
     return 0;
 }

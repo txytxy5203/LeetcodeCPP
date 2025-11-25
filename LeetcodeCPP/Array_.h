@@ -1533,4 +1533,26 @@ public:
         }
         return ans;
     }
+    vector<int> nextGreaterElements(vector<int>& nums) 
+    {
+        // https://leetcode.cn/problems/next-greater-element-ii/description/
+        int n = nums.size();
+        vector<int> ans(n, -1);
+        nums.insert(nums.end(), nums.begin(), nums.end());
+        stack<int> stk;
+        // 从前到后
+        for (int i = 0; i < n * 2; i++)
+        {
+            while (!stk.empty() && nums[stk.top()] < nums[i])
+            {
+                int index = stk.top();
+                stk.pop();
+                ans[index % n] = nums[i % n];
+            }
+            if(i < n)
+                stk.push(i);
+        }
+        
+        return ans;
+    }
 };
