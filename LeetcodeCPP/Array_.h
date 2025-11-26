@@ -1555,4 +1555,17 @@ public:
         
         return ans;
     }
+    int maxChunksToSorted(vector<int>& arr) {
+        // https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/description/
+        stack<int> stk;   // 存当前 chunk 的最大值
+        for (int x : arr) {
+            int curMax = x;                    // 新元素可能成新最大值
+            while (!stk.empty() && stk.top() > x) {
+                curMax = std::max(curMax, stk.top()); // 合并 chunk，保留最大值
+                stk.pop();
+            }
+            stk.push(curMax);                  // 压回合并后的最大值
+        }
+        return stk.size();                     // 每个栈元素 = 一个 chunk
+    }
 };
