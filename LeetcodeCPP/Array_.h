@@ -1557,6 +1557,7 @@ public:
     }
     int maxChunksToSorted(vector<int>& arr) {
         // https://leetcode.cn/problems/max-chunks-to-make-sorted-ii/description/
+        // 核心的逻辑就是要保证chunk的最大值是有序的
         stack<int> stk;   // 存当前 chunk 的最大值
         for (int x : arr) {
             int curMax = x;                    // 新元素可能成新最大值
@@ -1567,5 +1568,28 @@ public:
             stk.push(curMax);                  // 压回合并后的最大值
         }
         return stk.size();                     // 每个栈元素 = 一个 chunk
+    }
+    int maxWidthRamp(vector<int>& nums) {
+        // https://leetcode.cn/problems/maximum-width-ramp/description/
+         
+        vector<int> stk;
+        stk.push_back(0);
+        int n = nums.size();
+        for (size_t i = 1; i < n; i++)
+        {
+            if (nums[i] < nums[stk.back()])
+                stk.push_back(i);
+        }
+        int ans = 0;
+        for (int i = n - 1; i >= 0; i--)        // 这里的处理太妙了
+        {
+            while (!stk.empty() && nums[i] >= nums[stk.back()])
+            {
+                int index = stk.back();
+                stk.pop_back();
+                ans = max(ans, i - index);
+            }
+        }
+        return ans;
     }
 };
