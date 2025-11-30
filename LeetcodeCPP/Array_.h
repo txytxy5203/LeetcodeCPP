@@ -1594,57 +1594,37 @@ public:
     }
     int trap(vector<int>& height) {
         // https://leetcode.cn/problems/trapping-rain-water/description/
-        stack<int> stk;
-        map<int, int> right;
-        map<int, int> left;
         int n = height.size();
+        vector<int> right(n, -1);
+        vector<int> left(n, -1);
         int ans = 0;
+        // 记录每个元素左边和右边的最大值
         // right
-        for (int i = 0; i < n; i++)
+        int maxNum = height[0];
+        for (int i = 1; i < n; i++)
         {
-            while (!stk.empty() && height[stk.top()] < height[i]) {
-                int top = stk.top();
-                right[top] = i;
-                stk.pop();
-            }
-            stk.push(i);
+            maxNum = max(maxNum, height[i]);
+            left[i] = maxNum;
         }
-        while (!stk.empty()) {
-            right[stk.top()] = -1;
-            stk.pop();
-        }
+        
         // left
-        for (int i = n - 1; i >= 0; i--)
+        maxNum = height[n - 1];
+        for (int i = n - 2; i >= 0; i--)
         {
-            while (!stk.empty() && height[stk.top()] < height[i]) {
-                int top = stk.top();
-                left[top] = i;
-                stk.pop();
-            }
-            stk.push(i);
+            maxNum = max(maxNum, height[i]);
+            right[i] = maxNum;
         }
-        while (!stk.empty()) {
-            left[stk.top()] = -1;
-            stk.pop();
-        }
+        
 
         for (int i = 0; i < n;)
         {
             if (left[i] != -1 && right[i] != -1) {
-                int left_index = left[i];
-                int right_index = right[i];
-                int level = min(height[left_index], height[right_index]);
-                
-                for (int j = left_index + 1; j < right_index; j++)
-                {
-                    ans += level - height[j];
-                }
-                i = right_index + 1;
+                int left_ = left[i];
+                int right_ = right[i];
+                int level = min(left_, right_);               
+                ans += level - height[i];                
             }
-            else
-            {
-                i++;
-            }
+            i++;
         }
         return ans;
     }
@@ -1672,6 +1652,7 @@ public:
     }
     vector<vector<int>> threeSum(vector<int>& nums) {
         // https://leetcode.cn/problems/3sum/description/
+        // 遍历一个 然后就是twoSum问题了
         sort(nums.begin(), nums.end());
         vector<vector<int>> ans;
         int n = nums.size();
@@ -1711,4 +1692,5 @@ public:
         }
         return ans;
     }
+
 };
