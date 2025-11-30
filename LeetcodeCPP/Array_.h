@@ -1583,7 +1583,7 @@ public:
         int ans = 0;
         for (int i = n - 1; i >= 0; i--)        // 这里的处理太妙了
         {
-            while (!stk.empty() && nums[i] >= nums[stk.back()])
+            while (!stk.empty() && nums[i] >= nums[stk.back()])     // 一定是区间越大越好
             {
                 int index = stk.back();
                 stk.pop_back();
@@ -1591,5 +1591,87 @@ public:
             }
         }
         return ans;
+    }
+    int largestRectangleArea(vector<int>& heights) {
+       // https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
+
+    }
+    int trap(vector<int>& height) {
+        // https://leetcode.cn/problems/trapping-rain-water/description/
+        stack<int> stk;
+        map<int, int> right;
+        map<int, int> left;
+        int n = height.size();
+        int ans = 0;
+        // right
+        for (int i = 0; i < n; i++)
+        {
+            while (!stk.empty() && height[stk.top()] < height[i]) {
+                int top = stk.top();
+                right[top] = i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        while (!stk.empty()) {
+            right[stk.top()] = -1;
+            stk.pop();
+        }
+        // left
+        for (int i = n - 1; i >= 0; i--)
+        {
+            while (!stk.empty() && height[stk.top()] < height[i]) {
+                int top = stk.top();
+                left[top] = i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        while (!stk.empty()) {
+            left[stk.top()] = -1;
+            stk.pop();
+        }
+
+        for (int i = 0; i < n;)
+        {
+            if (left[i] != -1 && right[i] != -1) {
+                int left_index = left[i];
+                int right_index = right[i];
+                int level = min(height[left_index], height[right_index]);
+                
+                for (int j = left_index + 1; j < right_index; j++)
+                {
+                    ans += level - height[j];
+                }
+                i = right_index + 1;
+            }
+            else
+            {
+                i++;
+            }
+        }
+        return ans;
+    }
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        // https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/
+        int left = 0;
+        int right = numbers.size() - 1;
+        while (left < right)
+        {
+            int add = numbers[left] + numbers[right];
+            if (add > target)
+            {
+                right--;
+            }
+            else if (add < target)
+            {
+                left++;
+            }
+            else
+            {
+                return {left + 1, right + 1};
+            }
+        }
+        return { 0,0 };
     }
 };

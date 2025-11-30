@@ -10,12 +10,12 @@ int main() {
     Array_ array;
     StockSpanner stk;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
-    vector<int> v = { 73,74,75,71,69,72,76,73 };
+    vector<int> v = { 0,1,0,2,1,0,1,3,2,1,2,1 };
     vector<vector<int>> grid = {{5,50,39,37},
                                 {2,19,36,26},
                                 {27,3,23,10},
                                 {20,33,8,39 } };
-    //auto tag = array.buildArray(v, 9);
+    auto tag = array.trap(v);
 
     //for (auto s : tag)
     //    cout << s << endl;
@@ -25,14 +25,7 @@ int main() {
             cout << j << " ";
         cout << endl;
     }*/
-    //cout << minStack.index << endl;
+    cout << tag << endl;
 
-    cout << stk.next(31) << endl;
-    cout << stk.next(41) << endl;
-    cout << stk.next(48) << endl;
-    cout << stk.next(59) << endl;
-    cout << stk.next(79) << endl;/*
-    cout << stk.next(75) << endl;
-    cout << stk.next(85) << endl;*/
     return 0;
 }
