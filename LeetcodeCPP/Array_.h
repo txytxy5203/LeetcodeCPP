@@ -1592,10 +1592,6 @@ public:
         }
         return ans;
     }
-    int largestRectangleArea(vector<int>& heights) {
-       // https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
-
-    }
     int trap(vector<int>& height) {
         // https://leetcode.cn/problems/trapping-rain-water/description/
         stack<int> stk;
@@ -1652,7 +1648,7 @@ public:
         }
         return ans;
     }
-    vector<int> twoSum(vector<int>& numbers, int target) {
+    vector<int> twoSum2(vector<int>& numbers, int target) {
         // https://leetcode.cn/problems/two-sum-ii-input-array-is-sorted/
         int left = 0;
         int right = numbers.size() - 1;
@@ -1673,5 +1669,46 @@ public:
             }
         }
         return { 0,0 };
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        // https://leetcode.cn/problems/3sum/description/
+        sort(nums.begin(), nums.end());
+        vector<vector<int>> ans;
+        int n = nums.size();
+
+        for (int i = 0; i < n - 2; i++)
+        {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+
+            int target = -nums[i];
+            int left = i + 1;
+            int right = n - 1;
+            while (left < right)
+            {
+                int add = nums[left] + nums[right];
+                if (add == target)
+                {
+                    ans.push_back({ nums[i], nums[left], nums[right] });
+                    int left_jump = left;
+                    int right_jump = right;
+                    while (left_jump < n && nums[left] == nums[left_jump])
+                    {
+                        left_jump++;
+                    }
+                    while (right_jump >= 0 && nums[right] == nums[right_jump])
+                    {
+                        right_jump--;
+                    }
+                    left = left_jump;
+                    right = right_jump;
+                }
+                else if (add > target)
+                    right--;
+                else
+                    left++;
+            }
+        }
+        return ans;
     }
 };

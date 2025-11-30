@@ -10,22 +10,21 @@ int main() {
     Array_ array;
     StockSpanner stk;
     string s = "ckidcdnrddddddddddddddrreeeeennnnppppppppppppppccc";
-    vector<int> v = { 0,1,0,2,1,0,1,3,2,1,2,1 };
+    vector<int> v = { 2,-3,0,-2,-5,-5,-4,1,2,-2,2,0,2,-4,5,5,-10 };
     vector<vector<int>> grid = {{5,50,39,37},
                                 {2,19,36,26},
                                 {27,3,23,10},
                                 {20,33,8,39 } };
-    auto tag = array.trap(v);
+    auto tag = array.threeSum(v);
 
-    //for (auto s : tag)
-    //    cout << s << endl;
-    /*for (auto i : tag)
+    for (auto i : tag)
     {
         for (auto j : i)
+        {
             cout << j << " ";
+        }
         cout << endl;
-    }*/
-    cout << tag << endl;
+    }
 
     return 0;
 }
