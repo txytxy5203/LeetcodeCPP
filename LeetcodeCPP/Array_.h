@@ -1829,8 +1829,47 @@ public:
         {
             int l = left[i];
             int r = right[i];
-            if(l < k && r > k)      // 注意这里是开区间
+            if(l < k && r > k)      // 注意这里是开区间  自己举个例子就懂了 哥哥
                 ans = max(ans, nums[i] * (r - l - 1));
+        }
+        return ans;
+    }
+    int sumSubarrayMins(vector<int>& arr) {
+        // https://leetcode.cn/problems/sum-of-subarray-minimums/description/
+        // 记得写注释
+        stack<int> stk;
+        int n = arr.size();
+        const int MOD = 1000000007;
+        vector<int> left(n ,-1);
+        vector<int> right(n , n);
+
+        for (int i = 0; i < n; i++)
+        {
+            while (!stk.empty() && arr[stk.top()] > arr[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            if (!stk.empty())
+                left[i] = stk.top();
+            stk.push(i);
+        }
+        auto sum = [&](int i, int r, int l)
+            {
+                long long down = (long long)r - l - 1;
+                long long h = min((long long)r - i, (long long)i - l);
+                long long up = down - (h - 1) * 2;
+                long long result = ((up + down) * h / 2) % MOD;
+                return result;
+            };
+        int ans = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            int r = right[i];
+            int l = left[i];
+            ans = (ans + sum(i, r, l) * arr[i] % (MOD)) % MOD;
         }
         return ans;
     }
