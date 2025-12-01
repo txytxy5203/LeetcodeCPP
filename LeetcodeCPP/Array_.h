@@ -1766,4 +1766,72 @@ public:
         }
         return ans;
     }
+    int maximumScore(vector<int>& nums, int k) {
+        // https://leetcode.cn/problems/maximum-score-of-a-good-subarray/description/
+        #pragma region 想法一
+        //int l = k;
+        //int r = k;
+        //int n = nums.size();
+        //int ans = nums[k];
+        //int m = nums[k];
+        //while (l >= 0 && r < n)
+        //{
+        //    m = min(m, min(nums[l], nums[r]));
+        //    ans = max(ans, m * (r - l + 1));
+        //    if (nums[l] >= nums[r])
+        //        l--;
+        //    else
+        //        r++;
+        //    if (l < 0)
+        //    {
+        //        l = 0;
+        //        for (; r < n; r++)
+        //        {
+        //            m = min(m, min(nums[l], nums[r]));
+        //            ans = max(ans, m * (r - l + 1));
+        //        }
+        //        break;
+        //    }
+        //    else if (r >= n)
+        //    {
+        //        r = n - 1;
+        //        for (; l >= 0; l--)
+        //        {
+        //            m = min(m, min(nums[l], nums[r]));
+        //            ans = max(ans, m * (r - l + 1));
+        //        }
+        //        break;
+        //    }
+        //}
+        //return ans;
+#pragma endregion
+
+        stack<int> stk;
+        int n = nums.size();
+        vector<int> right(n, n);
+        vector<int> left(n, -1);
+
+        for (int i = 0; i < n; i++)         // 已经能统一从左到右/从右到左遍历的判断条件 非常熟练
+        {
+            while (!stk.empty() && nums[stk.top()] >= nums[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            if (!stk.empty())
+                left[i] = stk.top();
+            stk.push(i);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int l = left[i];
+            int r = right[i];
+            if(l < k && r > k)      // 注意这里是开区间
+                ans = max(ans, nums[i] * (r - l - 1));
+        }
+        return ans;
+    }
 };
