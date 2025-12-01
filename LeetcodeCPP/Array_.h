@@ -1694,7 +1694,8 @@ public:
     }
     int largestRectangleArea(vector<int>& heights) {
         // https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
-        // 还是 单调栈的思路 就是看每一个元素的情况  
+        // 还是 单调栈的思路 就是看每一个元素的情况 
+        // 本质上我是用了三次遍历 还可以优化
         stack<int> stk;
         int n = heights.size();
         vector<int> right(n, -1);
@@ -1730,6 +1731,37 @@ public:
                 l = -1;
             if (r == -1)
                 r = n;
+            ans = max(ans, heights[i] * (r - l - 1));
+        }
+        return ans;
+    }
+    int largestRectangleArea2(vector<int>& heights) {
+        // https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
+        // 还是 单调栈的思路 就是看每一个元素的情况 
+        // 本质上我是用了三次遍历 还可以优化
+        stack<int> stk;
+        int n = heights.size();
+        vector<int> right(n, n);
+        vector<int> left(n, -1);
+        
+        for (int i = 0; i < n; i++)         // 已经能统一从左到右/从右到左遍历的判断条件 非常熟练
+        {
+            while (!stk.empty() && heights[stk.top()] >= heights[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            if (!stk.empty())
+                left[i] = stk.top();
+            stk.push(i);
+        }
+
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int l = left[i];
+            int r = right[i];
             ans = max(ans, heights[i] * (r - l - 1));
         }
         return ans;
