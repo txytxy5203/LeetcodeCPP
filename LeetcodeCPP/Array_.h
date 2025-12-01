@@ -1692,5 +1692,46 @@ public:
         }
         return ans;
     }
+    int largestRectangleArea(vector<int>& heights) {
+        // https://leetcode.cn/problems/largest-rectangle-in-histogram/description/
+        // 还是 单调栈的思路 就是看每一个元素的情况  
+        stack<int> stk;
+        int n = heights.size();
+        vector<int> right(n, -1);
+        vector<int> left(n, -1);
+        for (int i = 0; i < n; i++)
+        {
+            while (!stk.empty() && heights[stk.top()] > heights[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        stk = stack<int>();
+        for (int i = n - 1; i >= 0; i--)
+        {
+            while (!stk.empty() && heights[stk.top()] > heights[i])
+            {
+                int index = stk.top();
+                left[index] = i;
+                stk.pop();
+            }
+            stk.push(i);
+        }
 
+        int ans = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int l = left[i];
+            int r = right[i];
+            if (l == -1)
+                l = -1;
+            if (r == -1)
+                r = n;
+            ans = max(ans, heights[i] * (r - l - 1));
+        }
+        return ans;
+    }
 };
