@@ -1839,6 +1839,7 @@ public:
     }
     long long subArrayRanges(vector<int>& nums) {
         // https://leetcode.cn/problems/sum-of-subarray-ranges/description/
+        // 子数组的问题可以去思考左右边界
         stack<int> stk;
         long long ans = 0;
         int n = nums.size();
@@ -1888,5 +1889,31 @@ public:
             ans += term1 * term2 * term3;       // 看它的子数组的左右起点就懂了
         }
         return ans;
+    }
+    string removeKdigits(string num, int k) {
+        // https://leetcode.cn/problems/remove-k-digits/description/
+        //if (num.size() == k)
+        //    return "0";
+        string ans;
+        bool del = true;
+        for (int i = 0; i < num.size(); i++) {
+            while (del && !ans.empty() && ans.back() > num[i]) {
+                ans.pop_back();
+                k--;
+                if (k == 0)
+                    del = false;
+            }
+            ans.push_back(num[i]);
+        }
+        while (k != 0) {
+            ans.pop_back();
+            k--;
+        }
+
+        size_t i = 0;
+        while (i < ans.size() && ans[i] == '0')
+            ++i;
+        string res = ans.substr(i);
+        return res.empty() ? string("0") : res;
     }
 };
