@@ -1768,43 +1768,7 @@ public:
     }
     int maximumScore(vector<int>& nums, int k) {
         // https://leetcode.cn/problems/maximum-score-of-a-good-subarray/description/
-        #pragma region 想法一
-        //int l = k;
-        //int r = k;
-        //int n = nums.size();
-        //int ans = nums[k];
-        //int m = nums[k];
-        //while (l >= 0 && r < n)
-        //{
-        //    m = min(m, min(nums[l], nums[r]));
-        //    ans = max(ans, m * (r - l + 1));
-        //    if (nums[l] >= nums[r])
-        //        l--;
-        //    else
-        //        r++;
-        //    if (l < 0)
-        //    {
-        //        l = 0;
-        //        for (; r < n; r++)
-        //        {
-        //            m = min(m, min(nums[l], nums[r]));
-        //            ans = max(ans, m * (r - l + 1));
-        //        }
-        //        break;
-        //    }
-        //    else if (r >= n)
-        //    {
-        //        r = n - 1;
-        //        for (; l >= 0; l--)
-        //        {
-        //            m = min(m, min(nums[l], nums[r]));
-        //            ans = max(ans, m * (r - l + 1));
-        //        }
-        //        break;
-        //    }
-        //}
-        //return ans;
-#pragma endregion
+        // 一次遍历的标准模板
 
         stack<int> stk;
         int n = nums.size();
@@ -1836,14 +1800,13 @@ public:
     }
     int sumSubarrayMins(vector<int>& arr) {
         // https://leetcode.cn/problems/sum-of-subarray-minimums/description/
-        // 记得写注释
         stack<int> stk;
         int n = arr.size();
         const int MOD = 1000000007;
         vector<int> left(n ,-1);
         vector<int> right(n , n);
 
-        for (int i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)         // 一次遍历记录左右比当前的小的元素
         {
             while (!stk.empty() && arr[stk.top()] > arr[i])
             {
@@ -1855,12 +1818,13 @@ public:
                 left[i] = stk.top();
             stk.push(i);
         }
-        auto sum = [&](int i, int r, int l)
+        auto sum = [&](int i, int r, int l)                 // 这个函数是关键  eg : 1 2 2 2 2 1  实际是就是离散梯形的面积
             {
+                // 也可以看灵神的解法 一个相乘就出来了
                 long long down = (long long)r - l - 1;
                 long long h = min((long long)r - i, (long long)i - l);
                 long long up = down - (h - 1) * 2;
-                long long result = ((up + down) * h / 2) % MOD;
+                long long result = ((up + down) * h / 2) % MOD;         
                 return result;
             };
         int ans = 0;
@@ -1869,7 +1833,59 @@ public:
         {
             int r = right[i];
             int l = left[i];
-            ans = (ans + sum(i, r, l) * arr[i] % (MOD)) % MOD;
+            ans = (ans + sum(i, r, l) * arr[i] % (MOD)) % MOD;      // 找每一个元素能够共享多少
+        }
+        return ans;
+    }
+    long long subArrayRanges(vector<int>& nums) {
+        // https://leetcode.cn/problems/sum-of-subarray-ranges/description/
+        stack<int> stk;
+        long long ans = 0;
+        int n = nums.size();
+        vector<int> right(n, n);
+        vector<int> left(n, -1);
+        
+        // 优化成一次遍历 
+        for (int i = 0; i < n; i++)     // 先看 小于的
+        {
+            while (!stk.empty() && nums[stk.top()] > nums[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            if (!stk.empty())
+                left[i] = stk.top();
+            stk.push(i);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            long long term1 = right[i] - i;
+            long long term2 = i - left[i];
+            long long term3 = nums[i];
+            ans -= term1 * term2 * term3;       // 看它的子数组的左右起点就懂了
+        }
+        fill(right.begin(), right.end(), n);
+        fill(left.begin(), left.end(), -1);
+        stk = stack<int>();
+        for (int i = 0; i < n; i++)     // 再看 大于的
+        {
+            while (!stk.empty() && nums[stk.top()] < nums[i])
+            {
+                int index = stk.top();
+                right[index] = i;
+                stk.pop();
+            }
+            if (!stk.empty())
+                left[i] = stk.top();
+            stk.push(i);
+        }
+        for (int i = 0; i < n; i++)
+        {
+            long long term1 = right[i] - i;
+            long long term2 = i - left[i];
+            long long term3 = nums[i];
+            ans += term1 * term2 * term3;       // 看它的子数组的左右起点就懂了
         }
         return ans;
     }
