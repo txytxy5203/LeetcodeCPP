@@ -1905,15 +1905,33 @@ public:
             }
             ans.push_back(num[i]);
         }
-        while (k != 0) {
+
+        while (k != 0) {        // 没有删去k个字符 继续删除
             ans.pop_back();
             k--;
         }
-
-        size_t i = 0;
+        
+        size_t i = 0;           // string 头部的“0” 删去
         while (i < ans.size() && ans[i] == '0')
             ++i;
         string res = ans.substr(i);
         return res.empty() ? string("0") : res;
+    }
+    vector<int> mostCompetitive(vector<int>& nums, int k) {
+        // https://leetcode.cn/problems/find-the-most-competitive-subsequence/description/
+        vector<int> ans;
+        bool del = true;
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+            // 在弹出栈顶元素之前，必须保证栈中元素个数加上剩余元素个数是大于 k 的。
+            // 如果代码中不写这个判断，最后可能会得到一个长度小于 k 的子序列。
+            while (del && !ans.empty() && ans.back() > nums[i] && ans.size() + nums.size() - i > k)      
+            {
+                ans.pop_back();
+            }
+            if (ans.size() < k)             // 添加的时候也要判断
+                ans.push_back(nums[i]);
+        }
+        return ans;
     }
 };
