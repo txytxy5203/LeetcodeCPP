@@ -1925,7 +1925,7 @@ public:
         {
             // 在弹出栈顶元素之前，必须保证栈中元素个数加上剩余元素个数是大于 k 的。
             // 如果代码中不写这个判断，最后可能会得到一个长度小于 k 的子序列。
-            while (del && !ans.empty() && ans.back() > nums[i] && ans.size() + nums.size() - i > k)      
+            while (del && !ans.empty() && ans.back() > nums[i] && ans.size() + nums.size() - i > k)      // 有特殊要求的时候就在这个while这里加条件
             {
                 ans.pop_back();
             }
@@ -1933,5 +1933,33 @@ public:
                 ans.push_back(nums[i]);
         }
         return ans;
+    }
+    string removeDuplicateLetters(string s) {
+        // https://leetcode.cn/problems/remove-duplicate-letters/description/
+        string ans;
+
+        vector<int> record(26, 0);
+        vector<bool> have(26, false);
+        for (size_t i = 0; i < s.size(); i++)
+        {
+            record[s[i] - 'a']++;
+        }
+
+        for (size_t i = 0; i < s.size(); i++)
+        {
+            record[s[i] - 'a']--;
+            if (have[s[i] - 'a'])
+                continue;
+            
+            while (!ans.empty() && ans.back() > s[i] && record[ans.back() - 'a'] > 1)
+            {
+                char top = ans.back();
+                have[top - 'a'] = false;
+                ans.pop_back();
+            }
+            ans += s[i];
+            have[s[i] - 'a'] = true;
+        }
+        return ans;   
     }
 };
