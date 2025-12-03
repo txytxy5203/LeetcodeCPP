@@ -1936,6 +1936,7 @@ public:
     }
     string removeDuplicateLetters(string s) {
         // https://leetcode.cn/problems/remove-duplicate-letters/description/
+        // 这题还需要多理解一下
         string ans;
 
         vector<int> record(26, 0);
@@ -1961,5 +1962,9 @@ public:
             have[s[i] - 'a'] = true;
         }
         return ans;   
+    }
+    int minRectanglesToCoverPoints(vector<vector<int>>& points, int w) {
+        // https://leetcode.cn/problems/minimum-rectangles-to-cover-points/description/
+        
     }
 };

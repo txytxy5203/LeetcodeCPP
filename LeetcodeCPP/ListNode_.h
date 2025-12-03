@@ -46,4 +46,14 @@ public:
         }
         return ans;
     }
+    int getDecimalValue(ListNode* head) {
+        // https://leetcode.cn/problems/convert-binary-number-in-a-linked-list-to-integer/description/
+        int ans = 0;
+        while (head != NULL)
+        {
+            ans = ans*2 + head->val;
+            head = head->next;
+        }
+        return ans;
+    }
 };
