@@ -58,37 +58,69 @@ public:
     }
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
         // https://leetcode.cn/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points/description/ 
-        vector<int> index;
+
         int i = 0;
-        int last = head->val;
+        int lastVal = head->val;
+        int last = 0;
+        int minAns = INT32_MAX;
+        int first = 0;
+        int end = 0;
         while (head != NULL)
         {
             if (i == 0)
-                continue;
+            {
+                i++;
+            }
             if (head->next != nullptr)
             {
-                if (last > head->val && head->next->val > head->val)    // 极小值
+                if (lastVal > head->val && head->next->val > head->val       // 极小值
+                    || lastVal < head->val && head->next->val < head->val)   // 极大值
                 {
-                    index.push_back(i);
-                }
-                else if (last < head->val && head->next->val < head->val)    // 极大值
-                {
-                    index.push_back(i);
+                    if (first == 0)     // first只能修改一次  好方法
+                    {
+                        first = i;
+                        last = i;
+                        end = i;
+                    }
+                    else
+                    {
+                        minAns = min(minAns, i - last);
+                        last = i;
+                        end = i;
+                    }                  
                 }
             }
-            i++;
-            last = head->val;
+            lastVal = head->val;
             head = head->next;
+            i++;
         }
-        if (index.size() < 2)
+        if (first == end)
             return { -1, -1 };
-        int min = INT32_MAX;
-        int max = index.back() - index.front();
-        for (size_t i = 1; i < index.size(); i++)
+        return { minAns, end - first};
+    }
+    ListNode* mergeNodes(ListNode* head) {
+        // https://leetcode.cn/problems/merge-nodes-in-between-zeros/description/
+        
+        if (head == nullptr)
+            return nullptr;
+        ListNode* dummy = new ListNode(0);      // 哨兵节点
+        ListNode* curr = dummy; 
+        int sum = 0;
+        head = head->next;
+        while (head != nullptr)
         {
-            if (index[i] - index[i - 1] < min)
-                min = index[i] - index[i - 1];
+            if (head->val == 0) {
+                curr->next = new ListNode(sum);
+                sum = 0;
+                curr = curr->next;
+            }
+            else {
+                sum += head->val;
+            }
+            head = head->next;     
         }
-        return { min, max };
+        ListNode* result = dummy->next;
+        delete dummy;
+        return result;
     }
 };
