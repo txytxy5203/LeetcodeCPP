@@ -56,4 +56,39 @@ public:
         }
         return ans;
     }
+    vector<int> nodesBetweenCriticalPoints(ListNode* head) {
+        // https://leetcode.cn/problems/find-the-minimum-and-maximum-number-of-nodes-between-critical-points/description/ 
+        vector<int> index;
+        int i = 0;
+        int last = head->val;
+        while (head != NULL)
+        {
+            if (i == 0)
+                continue;
+            if (head->next != nullptr)
+            {
+                if (last > head->val && head->next->val > head->val)    // 极小值
+                {
+                    index.push_back(i);
+                }
+                else if (last < head->val && head->next->val < head->val)    // 极大值
+                {
+                    index.push_back(i);
+                }
+            }
+            i++;
+            last = head->val;
+            head = head->next;
+        }
+        if (index.size() < 2)
+            return { -1, -1 };
+        int min = INT32_MAX;
+        int max = index.back() - index.front();
+        for (size_t i = 1; i < index.size(); i++)
+        {
+            if (index[i] - index[i - 1] < min)
+                min = index[i] - index[i - 1];
+        }
+        return { min, max };
+    }
 };
