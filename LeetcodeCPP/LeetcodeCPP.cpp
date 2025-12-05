@@ -1,5 +1,6 @@
 #include "Array_.h"
 #include "Stack_.h"
+#include "ListNode_.h"
 using namespace std;
 
 
@@ -9,19 +10,26 @@ int main() {
     
     Array_ array;
     StockSpanner stk;
+    ListNode_ listNode;
     string s = "bcabc";
     vector<int> v = { 71,18,52,29,55,73,24,42,66,8,80,2 };
     vector<vector<int>> grid = {{5,50,39,37},
                                 {2,19,36,26},
                                 {27,3,23,10},
                                 {20,33,8,39 } };
-    auto tag = array.removeDuplicateLetters(s);
-    cout << tag;
+    //auto tag = array.removeDuplicateLetters(s);
+    //cout << tag;
     //cout << tag;
     //for (auto i : tag)
     //{
     //    cout << i << endl;
     //}
-
+    ListNode a(0);
+    ListNode b(1);
+    ListNode c(2);
+    a.next = &b;
+    b.next = &c;
+    c.next = nullptr;
+    listNode.Recur(&a);
     return 0;
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <vector>
 #include <stack>
 #include <set>
@@ -190,5 +191,15 @@ public:
             dummy = curr;
         }
         return dummy;
+    }
+    void Recur(ListNode* head)
+    {
+        // 所以说 递归的本质 就是 倒着遍历从最后出发 从结果出发！！！
+        // of cource 也可以正向遍历    操作和递归调个顺序就行了 666
+        if (head == nullptr)
+            return;
+        Recur(head->next);
+        cout << head->val << endl;
+        return;
     }
 };
