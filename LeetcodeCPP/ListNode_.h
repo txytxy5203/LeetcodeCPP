@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include <stack>
+#include <set>
+#include <unordered_set>
 
 using namespace std;
 
@@ -139,6 +141,27 @@ public:
                 head = head->next;
             }
         }
-        return dummy->next;
+        ListNode* result = dummy->next;
+        delete dummy;
+        return result;
+    }
+    ListNode* modifiedList(vector<int>& nums, ListNode* head) {
+        // https://leetcode.cn/problems/delete-nodes-from-linked-list-present-in-array/description/
+        unordered_set<int> record(nums.begin(), nums.end());      // 直接在构造函数里面生成
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        ListNode* last = dummy;
+        while (head != nullptr){
+            if (record.count(head->val) == 0) {
+                last = head;
+            }
+            else {
+                last->next = head->next;
+            }
+            head = head->next;
+        }
+        ListNode* ans = dummy->next;
+        delete dummy;
+        return ans;
     }
 };
