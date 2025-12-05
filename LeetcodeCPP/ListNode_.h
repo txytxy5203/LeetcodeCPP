@@ -102,6 +102,7 @@ public:
     }
     ListNode* mergeNodes(ListNode* head) {
         // https://leetcode.cn/problems/merge-nodes-in-between-zeros/description/
+        // 可以当成模板  dummy
         if (head == nullptr)
             return nullptr;
         ListNode* dummy = new ListNode(0);      // 哨兵节点
@@ -163,5 +164,31 @@ public:
         ListNode* ans = dummy->next;
         delete dummy;
         return ans;
+    }
+    ListNode* removeNodes(ListNode* head) {
+        // https://leetcode.cn/problems/remove-nodes-from-linked-list/description/
+        // 哟 这不单调栈嘛
+        // 也可以使用递归
+        stack<ListNode*> stk;
+        ListNode* dummy = nullptr;
+        //dummy->next = head;
+        while (head != nullptr)
+        {
+            while (!stk.empty() && stk.top()->val < head->val)
+            {
+                stk.pop();
+            }
+            stk.push(head);
+            head = head->next;
+        }
+
+        while (!stk.empty())
+        {
+            ListNode* curr = stk.top();
+            stk.pop();
+            curr->next = dummy;
+            dummy = curr;
+        }
+        return dummy;
     }
 };
