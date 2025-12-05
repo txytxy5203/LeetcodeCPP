@@ -100,7 +100,6 @@ public:
     }
     ListNode* mergeNodes(ListNode* head) {
         // https://leetcode.cn/problems/merge-nodes-in-between-zeros/description/
-        
         if (head == nullptr)
             return nullptr;
         ListNode* dummy = new ListNode(0);      // 哨兵节点
@@ -122,5 +121,24 @@ public:
         ListNode* result = dummy->next;
         delete dummy;
         return result;
+    }
+    ListNode* removeElements(ListNode* head, int val) {
+        // https://leetcode.cn/problems/remove-linked-list-elements/description/
+        // 链表的题目就认真一些  指针的方向弄清楚 再来个dummy就ok了
+        ListNode* dummy = new ListNode(0);
+        ListNode* last = dummy;
+        dummy->next = head;
+        while (head != nullptr)
+        {
+            if (head->val == val) {
+                last->next = head->next;
+                head = head->next;
+            }
+            else {
+                last = head;
+                head = head->next;
+            }
+        }
+        return dummy->next;
     }
 };
