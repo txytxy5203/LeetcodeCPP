@@ -202,4 +202,22 @@ public:
         cout << head->val << endl;
         return;
     }
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        // https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list/description/
+        ListNode* curr = head;
+        while (curr != nullptr)
+        {
+            if (curr->next != nullptr) {
+                int num = gcd(curr->val, curr->next->val);
+                ListNode* add = new ListNode(num);
+                add->next = curr->next;
+                curr->next = add;
+                curr = add->next;
+            }
+            else {
+                break;
+            }
+        }
+        return head;
+    }
 };
