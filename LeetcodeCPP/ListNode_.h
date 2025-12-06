@@ -232,4 +232,36 @@ public:
         }
         return last;
     }
+    ListNode* reverseBetween(ListNode* head, int left, int right) {
+        // https://leetcode.cn/problems/reverse-linked-list-ii/description/
+        // 这个还需要好好理解一下 多练
+        if (!head || left == right) {
+            return head; // 空链表或无需反转
+        }
+
+        // 创建虚拟头节点，简化操作
+        ListNode dummy(0);
+        dummy.next = head;
+
+        // prev 指向待反转部分的前一个节点
+        ListNode* prev = &dummy;
+        for (int i = 0; i < left - 1; ++i) {
+            prev = prev->next;
+        }
+
+        // curr 指向待反转部分的第一个节点
+        ListNode* curr = prev->next;
+
+        // 执行反转
+        // 在每次迭代中，将 curr 的下一个节点移动到反转区域的开头（prev 的后面）
+        for (int i = 0; i < right - left; ++i) {
+            ListNode* next_node = curr->next;
+            curr->next = next_node->next;
+            next_node->next = prev->next;
+            prev->next = next_node;
+        }
+
+        // dummy.next 永远指向链表的实际头节点
+        return dummy.next;
+    }
 };
