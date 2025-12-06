@@ -220,4 +220,16 @@ public:
         }
         return head;
     }
+    ListNode* reverseList(ListNode* head) {
+        // https://leetcode.cn/problems/reverse-linked-list/description/
+        ListNode* last = nullptr;
+        ListNode* next = nullptr;
+        while (head != nullptr) {
+            next = head->next;
+            head->next = last;
+            last = head;
+            head = next;
+        }
+        return last;
+    }
 };
