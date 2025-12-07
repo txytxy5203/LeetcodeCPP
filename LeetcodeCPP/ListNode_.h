@@ -281,6 +281,29 @@ public:
             curr = curr->next;
         }
         curr->next = curr->next->next;
-        return dummy->next;
+        ListNode* ans = dummy;
+        delete dummy;
+        return ans;
+    }
+    ListNode* removeNthFromEnd2(ListNode* head, int n) {
+        // 前后指针
+        ListNode* dummy = new ListNode(0);
+        ListNode* left = dummy;
+        dummy->next = head;
+        int length = 1;
+        while (head->next != nullptr){
+            if (length < n) {
+                head = head->next;
+                length++;
+            }
+            else {
+                left = left->next;
+                head = head->next;
+            }
+        }
+        left->next = left->next->next;
+        ListNode* ans = dummy;
+        delete dummy;           // leetcode中不要delete不然会报错
+        return ans->next;
     }
 };
