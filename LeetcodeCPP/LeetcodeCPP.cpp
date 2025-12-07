@@ -24,12 +24,12 @@ int main() {
     //{
     //    cout << i << endl;
     //}
-    ListNode a(0);
-    ListNode b(1);
+    ListNode a(1);
+    ListNode b(2);
     ListNode c(2);
     a.next = &b;
-    b.next = &c;
+    b.next = nullptr;
     c.next = nullptr;
-    listNode.Recur(&a);
+    auto head = listNode.rotateRight(&a, 5);
     return 0;
 }

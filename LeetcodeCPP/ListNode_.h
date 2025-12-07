@@ -202,24 +202,24 @@ public:
         cout << head->val << endl;
         return;
     }
-    ListNode* insertGreatestCommonDivisors(ListNode* head) {
-        // https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list/description/
-        ListNode* curr = head;
-        while (curr != nullptr)
-        {
-            if (curr->next != nullptr) {
-                int num = gcd(curr->val, curr->next->val);
-                ListNode* add = new ListNode(num);
-                add->next = curr->next;
-                curr->next = add;
-                curr = add->next;
-            }
-            else {
-                break;
-            }
-        }
-        return head;
-    }
+    //ListNode* insertGreatestCommonDivisors(ListNode* head) {
+    //    // https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list/description/
+    //    ListNode* curr = head;
+    //    while (curr != nullptr)
+    //    {
+    //        if (curr->next != nullptr) {
+    //            int num = gcd(curr->val, curr->next->val);
+    //            ListNode* add = new ListNode(num);
+    //            add->next = curr->next;
+    //            curr->next = add;
+    //            curr = add->next;
+    //        }
+    //        else {
+    //            break;
+    //        }
+    //    }
+    //    return head;
+    //}
     ListNode* reverseList(ListNode* head) {
         // https://leetcode.cn/problems/reverse-linked-list/description/
         ListNode* last = nullptr;
@@ -305,5 +305,39 @@ public:
         ListNode* ans = dummy;
         delete dummy;           // leetcode中不要delete不然会报错
         return ans->next;
+    }
+    ListNode* rotateRight(ListNode* head, int k) {
+        // https://leetcode.cn/problems/rotate-list/description/
+        if (head == nullptr)
+            return nullptr;
+
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        int size = 0;
+        while (head != nullptr)
+        {
+            size++;
+            head = head->next;
+        }
+
+        k = k % size;
+        if (k == 0)
+            return dummy->next;
+        head = dummy->next;
+        int length = 1;
+        ListNode* left = dummy;
+        while (head->next != nullptr) {
+            if (length < k) {
+                length++;
+            }
+            else {
+                left = left->next;
+            }
+            head = head->next;
+        }
+        ListNode* newHead = left->next;
+        left->next = nullptr;
+        head->next = dummy->next;
+        return newHead;
     }
 };
