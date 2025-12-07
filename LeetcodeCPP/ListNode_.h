@@ -264,4 +264,23 @@ public:
         // dummy.next 永远指向链表的实际头节点
         return dummy.next;
     }
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        // https://leetcode.cn/problems/remove-nth-node-from-end-of-list/description/
+        ListNode* dummy = new ListNode(0);
+        dummy->next = head;
+        int size = 0;
+        ListNode* curr = head;
+        while (curr != nullptr)
+        {
+            size++;
+            curr = curr->next;
+        }
+        curr = dummy;
+        for (size_t i = 0; i < size - n; i++)
+        {
+            curr = curr->next;
+        }
+        curr->next = curr->next->next;
+        return dummy->next;
+    }
 };
