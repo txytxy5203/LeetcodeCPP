@@ -135,11 +135,13 @@
     <ClCompile Include="ListNode_.cpp" />
     <ClCompile Include="Stack_.cpp" />
     <ClCompile Include="LeetcodeCPP.cpp" />
+    <ClCompile Include="TreeNode_.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Array_.h" />
     <ClInclude Include="ListNode_.h" />
     <ClInclude Include="Stack_.h" />
+    <ClInclude Include="TreeNode_.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
