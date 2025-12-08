@@ -202,24 +202,24 @@ public:
         cout << head->val << endl;
         return;
     }
-    //ListNode* insertGreatestCommonDivisors(ListNode* head) {
-    //    // https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list/description/
-    //    ListNode* curr = head;
-    //    while (curr != nullptr)
-    //    {
-    //        if (curr->next != nullptr) {
-    //            int num = gcd(curr->val, curr->next->val);
-    //            ListNode* add = new ListNode(num);
-    //            add->next = curr->next;
-    //            curr->next = add;
-    //            curr = add->next;
-    //        }
-    //        else {
-    //            break;
-    //        }
-    //    }
-    //    return head;
-    //}
+    ListNode* insertGreatestCommonDivisors(ListNode* head) {
+        // https://leetcode.cn/problems/insert-greatest-common-divisors-in-linked-list/description/
+        ListNode* curr = head;
+        while (curr != nullptr)
+        {
+            if (curr->next != nullptr) {
+                int num = gcd(curr->val, curr->next->val);
+                ListNode* add = new ListNode(num);
+                add->next = curr->next;
+                curr->next = add;
+                curr = add->next;
+            }
+            else {
+                break;
+            }
+        }
+        return head;
+    }
     ListNode* reverseList(ListNode* head) {
         // https://leetcode.cn/problems/reverse-linked-list/description/
         ListNode* last = nullptr;
@@ -339,5 +339,24 @@ public:
         left->next = nullptr;
         head->next = dummy->next;
         return newHead;
+    }
+    ListNode* middleNode(ListNode* head) {
+        // https://leetcode.cn/problems/middle-of-the-linked-list/description/
+        ListNode* l = head;
+        ListNode* r = head;
+        while (r->next != nullptr)
+        {
+            l = l->next;
+            r = r->next->next;
+            if (r == nullptr)
+            {
+                return l;
+            }
+            else if (r->next == nullptr)
+            {
+                return l;
+            }         
+        }
+        return r;
     }
 };
