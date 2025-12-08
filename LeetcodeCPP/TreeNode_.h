@@ -34,5 +34,29 @@ class TreeNode_
 		bool r = isSameTree(p->right, q->right);
 		return l && r;
 	}
+	bool isSymmetric(TreeNode* root) {
+		// https://leetcode.cn/problems/symmetric-tree/description/
+		// 这题和 isSameTree 一个思路 反着传子节点就行了
+		if (root->left == nullptr && root->right == nullptr)
+			return true;
+		if (root->left == nullptr && root->right != nullptr 
+		 || root->left != nullptr && root->right == nullptr)
+			return false;
+		
+		bool ans = isSymmetricRecur(root->left, root->right);
+		return ans;
+	}
+	bool isSymmetricRecur(TreeNode* p, TreeNode* q) {
+		// https://leetcode.cn/problems/same-tree/description/
+		if (p == nullptr && q == nullptr)
+			return true;
+		if (p == nullptr && q != nullptr || p != nullptr && q == nullptr)
+			return false;
+		if (p->val != q->val)
+			return false;
+		bool l = isSymmetricRecur(p->left, q->right);
+		bool r = isSymmetricRecur(p->right, q->left);
+		return l && r;
+	}
 };
 
