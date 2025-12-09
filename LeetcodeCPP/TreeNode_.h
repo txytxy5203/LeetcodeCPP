@@ -63,6 +63,7 @@ class TreeNode_
 	}
 	vector<int> rightSideView(TreeNode* root) {
 		// https://leetcode.cn/problems/binary-tree-right-side-view/description/
+		// 灵神的 遍历节点的时候带一个深度 也挺不错 要了解
 		vector<int> ans;
 		if (!root)
 			return ans;
@@ -86,6 +87,23 @@ class TreeNode_
 			}
 		}
 		return ans;
+	}
+	bool isValidBST(TreeNode* root) {
+		// https://leetcode.cn/problems/validate-binary-search-tree/description/
+		// 区间的思想 ！！！
+		// 所以说这题的思想是在 递 的规程中解题   而我总是喜欢在 归 的过程中解题
+		return isValidBSTRecur(root, LONG_MIN, LONG_MAX);
+	}
+	bool isValidBSTRecur(TreeNode* node, long left, long right)
+	{
+		if (!node)
+			return true;
+		long val = node->val;
+		if (val <= left || val >= right)
+			return false;
+		bool l = isValidBSTRecur(node->left, left, val);
+		bool r = isValidBSTRecur(node->right, val, right);
+		return l && r;
 	}
 };
 
