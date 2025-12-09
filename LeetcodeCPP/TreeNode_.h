@@ -1,5 +1,8 @@
 #pragma once
 #include <utility>
+#include <vector>
+#include <queue>
+using namespace std;
 
 class TreeNode
 {
@@ -57,6 +60,32 @@ class TreeNode_
 		bool l = isSymmetricRecur(p->left, q->right);
 		bool r = isSymmetricRecur(p->right, q->left);
 		return l && r;
+	}
+	vector<int> rightSideView(TreeNode* root) {
+		// https://leetcode.cn/problems/binary-tree-right-side-view/description/
+		vector<int> ans;
+		if (!root)
+			return ans;
+		queue<TreeNode*> q;
+		q.push(root);
+		while (!q.empty())
+		{
+			int size = q.size();
+			for (size_t i = 0; i < size; i++)
+			{
+				TreeNode* curr = q.front();
+				q.pop();
+
+				if (i == size - 1)
+					ans.push_back(curr->val);
+
+				if (curr->left != nullptr)
+					q.push(curr->left);
+				if (curr->right != nullptr)
+					q.push(curr->right);
+			}
+		}
+		return ans;
 	}
 };
 
