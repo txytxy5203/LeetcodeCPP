@@ -92,6 +92,7 @@ class TreeNode_
 		// https://leetcode.cn/problems/validate-binary-search-tree/description/
 		// 区间的思想 ！！！
 		// 所以说这题的思想是在 递 的规程中解题   而我总是喜欢在 归 的过程中解题
+		// 也可以中序遍历
 		return isValidBSTRecur(root, LONG_MIN, LONG_MAX);
 	}
 	bool isValidBSTRecur(TreeNode* node, long left, long right)
@@ -105,5 +106,17 @@ class TreeNode_
 		bool r = isValidBSTRecur(node->right, val, right);
 		return l && r;
 	}
+	TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+		// https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/description/
+		// 太巧妙了 这个思路
+		if (root == nullptr || root == p || root == q)
+			return root;
+		TreeNode* left = lowestCommonAncestor(root->left, p, q);
+		TreeNode* right = lowestCommonAncestor(root->right, p, q);
+		if (left != nullptr && right != nullptr)
+			return root;
+		return left != nullptr ? left : right;
+		
+	}	
 };
 
