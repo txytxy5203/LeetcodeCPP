@@ -137,5 +137,33 @@ class TreeNode_
 			return root;
 		return left != nullptr ? left : right;
 	}
+	vector<vector<int>> levelOrder(TreeNode* root) {
+		// 	https://leetcode.cn/problems/binary-tree-level-order-traversal/description/
+		vector<vector<int>> ans;
+		if (!root)
+			return ans;
+		std::queue<TreeNode*> queue;
+		queue.push(root);
+		while (!queue.empty())
+		{
+			int size = queue.size();
+			ans.push_back(vector<int>());			// 实际上这里和c#差不多 只不过c#有一个new关键字而已
+			for (size_t i = 0; i < size; i++)
+			{
+				TreeNode* curr = queue.front();
+				queue.pop();
+				ans.back().push_back(curr->val);
+				if (curr->left)
+					queue.push(curr->left);
+				if (curr->right)
+					queue.push(curr->right);
+			}
+		}
+		return ans;
+	}
+	vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+		// https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/
+
+	}
 };
 
