@@ -2,6 +2,7 @@
 #include <utility>
 #include <vector>
 #include <queue>
+#include <numeric>
 using namespace std;
 
 class TreeNode
@@ -115,8 +116,26 @@ class TreeNode_
 		TreeNode* right = lowestCommonAncestor(root->right, p, q);
 		if (left != nullptr && right != nullptr)
 			return root;
-		return left != nullptr ? left : right;
-		
+		return left != nullptr ? left : right;	
 	}	
+	TreeNode* lowestCommonAncestorSearchTree(TreeNode* root, TreeNode* p, TreeNode* q) {
+		// https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-search-tree/description/
+		int min = std::min(p->val, q->val);
+		int max = std::max(p->val, q->val);
+		return lowestCommonAncestorSearchTreeRecur(root, min, max);
+	}
+	TreeNode* lowestCommonAncestorSearchTreeRecur(TreeNode* root, int min, int max) {
+		if (root == nullptr || root->val == min || root->val == max)
+			return root;
+		TreeNode* left = nullptr;
+		TreeNode* right = nullptr;
+		if (root->val > min)
+			left = lowestCommonAncestorSearchTreeRecur(root->left, min, max);
+		if (root->val < max)
+			right = lowestCommonAncestorSearchTreeRecur(root->right, min, max);
+		if (left != nullptr && right != nullptr)
+			return root;
+		return left != nullptr ? left : right;
+	}
 };
 
