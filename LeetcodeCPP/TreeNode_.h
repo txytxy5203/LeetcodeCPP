@@ -2,6 +2,7 @@
 #include <utility>
 #include <vector>
 #include <queue>
+#include <deque>
 #include <numeric>
 using namespace std;
 
@@ -65,10 +66,10 @@ class TreeNode_
 	vector<int> rightSideView(TreeNode* root) {
 		// https://leetcode.cn/problems/binary-tree-right-side-view/description/
 		// 灵神的 遍历节点的时候带一个深度 也挺不错 要了解
-		vector<int> ans;
+		/*vector<int> ans;
 		if (!root)
 			return ans;
-		queue<TreeNode*> q;
+		deque<TreeNode*> q;
 		q.push(root);
 		while (!q.empty())
 		{
@@ -87,7 +88,7 @@ class TreeNode_
 					q.push(curr->right);
 			}
 		}
-		return ans;
+		return ans;*/
 	}
 	bool isValidBST(TreeNode* root) {
 		// https://leetcode.cn/problems/validate-binary-search-tree/description/
@@ -163,7 +164,93 @@ class TreeNode_
 	}
 	vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
 		// https://leetcode.cn/problems/binary-tree-zigzag-level-order-traversal/description/
+		vector<vector<int>> ans;
+		if (!root)
+			return ans;
+		std::deque<TreeNode*> deque;
+		deque.push_back(root);
+		bool reverse = true;
+		while (!deque.empty())
+		{
+			int size = deque.size();
+			ans.push_back(vector<int>());			// 实际上这里和c#差不多 只不过c#有一个new关键字而已
+			for (size_t i = 0; i < size; i++)
+			{
+				TreeNode* curr = reverse ? deque.front() : deque.back();
+				reverse ? deque.pop_front() : deque.pop_back();
+				ans.back().push_back(curr->val);
+				if (reverse)			// 丑陋的代码
+				{
+					if (curr->left)
+						reverse ? deque.push_back(curr->left) : deque.push_front(curr->left);
+					if (curr->right)
+						reverse ? deque.push_back(curr->right) : deque.push_front(curr->right);
+				}
+				else
+				{
+					if (curr->right)
+						reverse ? deque.push_back(curr->right) : deque.push_front(curr->right);
+					if (curr->left)
+						reverse ? deque.push_back(curr->left) : deque.push_front(curr->left);
+				}
+				
+			}
+			reverse = !reverse;
+		}
+		return ans;
+	}
+	vector<vector<int>> zigzagLevelOrder2(TreeNode* root) {
+		// 直接把ans的数组reverse一下不就行了吗
+		vector<vector<int>> ans;
+		if (!root)
+			return ans;
+		std::queue<TreeNode*> q;
+		q.push(root);
+		bool tag = false;
+		while (!q.empty())
+		{
+			int size = q.size();
+			vector<int> arr;
+			for (size_t i = 0; i < size; i++)		// 优雅的代码elegant
+			{
+				TreeNode* curr = q.front();
+				q.pop();
+				arr.push_back(curr->val);
 
+				if (curr->left)
+					q.push(curr->left);
+				if (curr->right)
+					q.push(curr->right);			
+			}
+			if (tag)
+				reverse(arr.begin(), arr.end());
+			ans.push_back(arr);
+			tag = !tag;
+		}
+		return ans;
+	}
+	int findBottomLeftValue(TreeNode* root) {
+		// https://leetcode.cn/problems/find-bottom-left-tree-value/description/
+
+		std::queue<TreeNode*> queue;
+		queue.push(root);
+		vector<int> arr;
+		while (!queue.empty())
+		{
+			int size = queue.size();
+			for (size_t i = 0; i < size; i++)
+			{
+				TreeNode* curr = queue.front();
+				queue.pop();
+				arr.push_back(curr->val);
+				if (curr->left)
+					queue.push(curr->left);
+				if (curr->right)
+					queue.push(curr->right);
+			}
+			arr.clear();
+		}
+		return arr[0];
 	}
 };
 
