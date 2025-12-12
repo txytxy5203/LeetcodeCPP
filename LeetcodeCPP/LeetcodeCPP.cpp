@@ -20,9 +20,9 @@ int main() {
                                 {2,19,36,26},
                                 {27,3,23,10},
                                 {20,33,8,39 } };
-    auto a = recur.letterCombinations("23");
-    for (auto str : a) {
+    auto a = recur.combine(4, 2);
+    /*for (auto str : a) {
         cout << str << endl;
-    }
+    }*/
     return 0;
 }
