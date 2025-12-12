@@ -3,6 +3,7 @@
 #include <vector>
 #include <stack>
 #include <set>
+#include <numeric>
 #include <unordered_set>
 
 using namespace std;

@@ -133,6 +133,7 @@
   <ItemGroup>
     <ClCompile Include="Array_.cpp" />
     <ClCompile Include="ListNode_.cpp" />
+    <ClCompile Include="Recur_.cpp" />
     <ClCompile Include="Stack_.cpp" />
     <ClCompile Include="LeetcodeCPP.cpp" />
     <ClCompile Include="TreeNode_.cpp" />
@@ -140,6 +141,7 @@
   <ItemGroup>
     <ClInclude Include="Array_.h" />
     <ClInclude Include="ListNode_.h" />
+    <ClInclude Include="Recur_.h" />
     <ClInclude Include="Stack_.h" />
     <ClInclude Include="TreeNode_.h" />
   </ItemGroup>
