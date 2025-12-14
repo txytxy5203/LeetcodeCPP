@@ -101,8 +101,35 @@ public:
         for (int i = start; i <= n - k + 1; i++) {  // 剪枝：i <= n - k + 1
             curr.push_back(i);           // 选择当前数字
             combineRecur(n, i + 1, k - 1, ans, curr);  // 递归
-            curr.pop_back();             // 回溯，撤销选择
+            curr.pop_back();             // 回溯，撤销选择  难怪人家叫递归
         }
+    }
+    vector<vector<int>> combinationSum3(int k, int n) {
+        // https://leetcode.cn/problems/combination-sum-iii/description/
+        vector<vector<int>> ans;
+        vector<int> curr;
+        combinationSum3Recur(1, n , k, curr, ans);
+        return ans;
+    }
+    void combinationSum3Recur(int index, int remain, int k, 
+                            vector<int>& curr, vector<vector<int>>& ans) {
+        if (remain == 0 && k == 0)
+        {
+            ans.push_back(curr);
+            return;
+        }
+
+        // 剪枝
+        if (k < 0)
+            return;
+        if (9 - index + 1 < k)
+            return;
+
+        curr.push_back(index);        // 为什么反过来就行？ 
+        combinationSum3Recur(index + 1, remain - index, k - 1, curr, ans);
+        curr.pop_back();
+        combinationSum3Recur(index + 1, remain, k, curr, ans);
+        
     }
 };
 
