@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <algorithm>
+#include <functional>
 using namespace std;
 
 class Recur_
@@ -130,6 +131,75 @@ public:
         curr.pop_back();
         combinationSum3Recur(index + 1, remain, k, curr, ans);
         
+    }
+    vector<string> generateParenthesis(int n) {
+        // https://leetcode.cn/problems/generate-parentheses/description/
+        vector<string> ans;
+        auto valid = [&](string& str) -> bool {
+            // 判断是不是有效的括号
+            stack<char> stk;
+            for (auto ch : str) {
+                if (ch == ')') {        // 从要加入的字符分类看
+                    if (!stk.empty() && stk.top() == '(')
+                        stk.pop();
+                    else
+                        return false;
+                }
+                else {
+                    stk.push('(');
+                }
+            }
+            return stk.empty();
+            };
+        auto recur = [&](this auto&& self, string& curr, int left, int right) -> void{
+            if (left == n && right == n && valid(curr)) {
+                ans.push_back(curr);
+                return;
+            }
+            
+            // 剪枝
+            if (left > n || right > n)
+                return;
+
+            curr.push_back('(');
+            self(curr, left + 1, right);
+            curr.pop_back();
+            curr.push_back(')');
+            self(curr, left, right + 1);
+            curr.pop_back();
+            };
+        string curr;
+        recur(curr, 0, 0);
+        return ans;
+    }
+    vector<string> generateParenthesis2(int n) {
+        // https://leetcode.cn/problems/generate-parentheses/description/
+        // 优化版本  一定注重剪枝的过程 能够优化很多
+        vector<string> ans;
+        string curr;
+
+        auto recur = [&](this auto&& self, int open, int close) {
+            if (curr.size() == 2 * n)
+            {
+                ans.push_back(curr);
+                return;
+            }
+
+            // 左括号 < n 时 才可以加左括号
+            if (open < n) {
+                curr.push_back('(');
+                self(open + 1, close);
+                curr.pop_back();
+            }
+            // 右括号 < 左括号时 才可以加右括号
+            if (close < open){
+                curr.push_back(')');
+                self(open, close + 1);
+                curr.pop_back();
+            }
+            };
+        recur(0,0);
+        return ans;
     }
 };
 
