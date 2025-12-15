@@ -175,6 +175,7 @@ public:
     vector<string> generateParenthesis2(int n) {
         // https://leetcode.cn/problems/generate-parentheses/description/
         // 优化版本  一定注重剪枝的过程 能够优化很多
+        // 也就是说在有效的时候才添加
         vector<string> ans;
         string curr;
 
@@ -199,6 +200,31 @@ public:
             }
             };
         recur(0,0);
+        return ans;
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        // https://leetcode.cn/problems/permutations/description/
+        vector<vector<int>> ans;
+        vector<int> curr;
+        int n = nums.size();
+        auto recur = [&](this auto&& self) {
+            if (curr.size() == n)
+            {
+                ans.push_back(curr);
+                return;
+            }
+
+            for (size_t i = 0; i < nums.size(); i++)
+            {
+                int num = nums[i];
+                curr.push_back(num);
+                nums.erase(nums.begin() + i);
+                self();
+                curr.pop_back();
+                nums.insert(nums.begin() + i, num);
+            }
+            };
+        recur();
         return ans;
     }
 };
