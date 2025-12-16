@@ -207,24 +207,70 @@ public:
         vector<vector<int>> ans;
         vector<int> curr;
         int n = nums.size();
-        auto recur = [&](this auto&& self) {
-            if (curr.size() == n)
+        // 创建一个布尔数组 used，大小与 nums 相同，初始值为 false
+        vector<bool> used(n, false);
+
+        // 递归函数，captures ans, curr, nums, used, n by reference
+        auto recur = [&](this auto&& self) -> void {
+            // 递归终止条件：当前路径的长度等于原数组长度
+            if (curr.size() == n) {
+                ans.push_back(curr);
+                return;
+            }
+            // 遍历所有数字，尝试将每一个未使用的数字加入当前路径
+            for (int i = 0; i < n; ++i) {
+                // 剪枝：如果当前数字已被使用，则跳过
+                if (used[i]) {
+                    continue;
+                }
+                // 做选择：将数字加入当前路径，并标记为已使用
+                curr.push_back(nums[i]);
+                used[i] = true;
+                // 递归进入下一层
+                self();
+                // 撤销选择（回溯）：将数字从当前路径移除，并标记为未使用
+                curr.pop_back();
+                used[i] = false;
+            }
+            };
+        // 启动递归
+        if (n > 0) {
+            recur();
+        }
+        return ans;
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        // https://leetcode.cn/problems/n-queens/description/
+        vector<vector<string>> ans;
+        vector<string> curr;
+        auto check = [&](int col, int row) {
+            // 不能在同一列  不能在同一个斜线
+            for (size_t i = 0; i < curr.size(); i++) {
+                int q = curr[i].find('Q');
+                if (curr[i][col] == 'Q' || (row - i) == abs(col - q))
+                    return false;
+            }
+            return true;
+
+            };
+        auto recur = [&](this auto&& self, int row) {
+            if (row == n )
             {
                 ans.push_back(curr);
                 return;
             }
-
-            for (size_t i = 0; i < nums.size(); i++)
+            for (size_t i = 0; i < n; i++)
             {
-                int num = nums[i];
-                curr.push_back(num);
-                nums.erase(nums.begin() + i);
-                self();
-                curr.pop_back();
-                nums.insert(nums.begin() + i, num);
+                if (check(i, row)) {
+                    string str(n, '.');
+                    str[i] = 'Q';
+                    curr.push_back(str);
+                    self(row + 1);
+                    curr.pop_back();
+                }
             }
             };
-        recur();
+        recur(0);
         return ans;
     }
 };
