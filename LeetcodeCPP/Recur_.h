@@ -166,7 +166,7 @@ public:
             curr.pop_back();
             curr.push_back(')');
             self(curr, left, right + 1);
-            curr.pop_back();
+            curr.pop_back();                // 其实这里的撤销选择 你想啊 如果是一个“值类型”就懂了
             };
         string curr;
         recur(curr, 0, 0);
@@ -272,6 +272,28 @@ public:
             };
         recur(0);
         return ans;
+    }
+    int rob(vector<int>& nums) {
+        // https://leetcode.cn/problems/house-robber/description/
+        // 我这种写法是用递归去遍历所有情况 感觉比较低级  leetcode会超时
+        // 我看之前左神写的是感觉是自下而上的递归 感觉更快
+        // 再好好琢磨一下
+        // 记忆化搜索？ 对的
+        int ans = 0;
+        int size = nums.size();
+        vector<int> dp(size, -1);
+        auto recur = [&](this auto&& self, int i) {
+            if (i >= size)
+                return 0;
+            if (dp[i] != -1)
+                return dp[i];
+            int yes = nums[i] + self(i + 2);
+            int no = self(i + 1);
+            int maxMoney = max(yes, no);
+            dp[i] = maxMoney;
+            return maxMoney;
+            };
+        return recur(0);
     }
 };
 
