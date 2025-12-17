@@ -1963,8 +1963,32 @@ public:
         }
         return ans;   
     }
-    int minRectanglesToCoverPoints(vector<vector<int>>& points, int w) {
-        // https://leetcode.cn/problems/minimum-rectangles-to-cover-points/description/
-        
+    int minArrivalsToDiscard(vector<int>& arrivals, int w, int m) {
+        // https://leetcode.cn/problems/minimum-discards-to-balance-inventory/description/
+        unordered_map<int, int> dict;
+        int ans = 0;
+        vector<bool> tag(arrivals.size(), true);
+        for (size_t i = 0; i < arrivals.size(); i++)
+        {
+            // in
+            dict[arrivals[i]]++;
+            
+            if (dict[arrivals[i]] > m)
+            {
+                ans++;
+                dict[arrivals[i]]--;
+                tag[i] = false;
+            }
+
+            int left = i - w + 1;
+            if (left < 0)
+                continue;
+            // update
+            
+            // out 
+            if(tag[left])
+                dict[arrivals[left]]--;                      
+        }
+        return ans;
     }
 };
