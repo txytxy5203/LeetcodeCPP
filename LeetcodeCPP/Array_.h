@@ -1991,4 +1991,31 @@ public:
         }
         return ans;
     }
+    int removeDuplicates(vector<int>& nums) {
+        // https://leetcode.cn/problems/remove-duplicates-from-sorted-array/description/
+        int slow = 0;
+        int fast = 1;
+        for (; fast < nums.size(); fast++) {
+            if (nums[slow] != nums[fast]) {
+                slow++;
+                nums[slow] = nums[fast];
+            }
+        }
+        return slow + 1;
+    }
+    int minOperations(vector<int>& nums) {
+        // https://leetcode.cn/problems/minimum-number-of-operations-to-make-array-continuous/description/
+        sort(nums.begin(), nums.end());
+        int size = nums.size();
+        int ans = 0;
+        int max = nums[0] + size - 1;
+        for (size_t i = size - 1; i >= 0; i--)
+        {
+            if (nums[i] > max)
+                ans++;
+            else
+                break;
+        }
+        return ans;
+    }
 };
