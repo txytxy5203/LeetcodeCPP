@@ -2007,15 +2007,25 @@ public:
         // https://leetcode.cn/problems/minimum-number-of-operations-to-make-array-continuous/description/
         sort(nums.begin(), nums.end());
         int size = nums.size();
+        int sizeNoDuplicates = removeDuplicates(nums);
+
+        // 滑动窗口 长度为 size
+        int record = 0;
+        int left = 0;           // 左边能够覆盖的最远端点
         int ans = 0;
-        int max = nums[0] + size - 1;
-        for (size_t i = size - 1; i >= 0; i--)
+        for (size_t i = 0; i < sizeNoDuplicates; i++)
         {
-            if (nums[i] > max)
-                ans++;
-            else
-                break;
+            // in 
+            record++;
+
+            // out
+            while (nums[left] < nums[i] - size + 1)
+            {
+                record--;
+                left++;
+            }
+            ans = max(ans, record);
         }
-        return ans;
+        return size - ans;
     }
 };
