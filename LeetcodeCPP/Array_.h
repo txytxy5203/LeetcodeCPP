@@ -2028,4 +2028,51 @@ public:
         }
         return size - ans;
     }
+    int minSizeSubarray(vector<int>& nums, int target) {
+        // https://leetcode.cn/problems/minimum-size-subarray-in-infinite-array/description/
+        // 我这种写法其实是可以的 但是leetcode会超时
+        long long sum = 0;
+        int left = 0;
+        int ans = INT_MAX;
+        int size = nums.size();
+        for (size_t i = 0;; i++)
+        {
+            // in
+            sum += nums[i % size];
+            // out
+            while (sum > target)
+            {
+                sum -= nums[left % size];
+                left++;
+            }
+            // update
+            if (sum == target)
+                ans = std::min(ans, (int)(i - left + 1));
+            if (left >= nums.size())
+                break;
+        }
+        return ans == INT_MAX ? -1 : ans;
+    }
+    int minSizeSubarray2(vector<int>& nums, int target) {
+        long long total = accumulate(nums.begin(), nums.end(), 0ll);
+        long long rem = target % total;
+        long long sum = 0;
+        int size = nums.size();
+        int left = 0;
+        int ans = INT_MAX;
+        for (int i = 0; i < 2 * size; i++)
+        {
+            sum += nums[i % size];
+
+            while (sum > rem)
+            {
+                sum -= nums[left % size];
+                left++;
+            }
+
+            if (sum == rem)
+                ans = min(ans, i - left + 1);
+        }
+        return ans == INT_MAX ? -1 : (target / total) * size + ans;
+    }
 };
