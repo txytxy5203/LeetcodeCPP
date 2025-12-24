@@ -2075,4 +2075,31 @@ public:
         }
         return ans == INT_MAX ? -1 : (target / total) * size + ans;
     }
+    int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+        // https://leetcode.cn/problems/subarray-product-less-than-k/description/
+        if (k == 0 || k == 1)
+            return 0;
+        int ans = 0;
+        int left = 0;
+        int record = 1;
+        for (size_t i = 0; i < nums.size(); i++)
+        {
+            // in
+            record *= nums[i];
+
+            // out
+            while (record >= k)
+            {
+                record /= nums[left];
+                left++;
+            }
+
+            // update
+            ans += i - left + 1;
+        }
+        return ans;
+    }
+    int numberOfSubstrings(string s) {
+
+    }
 };
