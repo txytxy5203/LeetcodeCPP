@@ -132,46 +132,46 @@ public:
         combinationSum3Recur(index + 1, remain, k, curr, ans);
         
     }
-    vector<string> generateParenthesis(int n) {
-        // https://leetcode.cn/problems/generate-parentheses/description/
-        vector<string> ans;
-        auto valid = [&](string& str) -> bool {
-            // 判断是不是有效的括号
-            stack<char> stk;
-            for (auto ch : str) {
-                if (ch == ')') {        // 从要加入的字符分类看
-                    if (!stk.empty() && stk.top() == '(')
-                        stk.pop();
-                    else
-                        return false;
-                }
-                else {
-                    stk.push('(');
-                }
-            }
-            return stk.empty();
-            };
-        auto recur = [&](this auto&& self, string& curr, int left, int right) -> void{
-            if (left == n && right == n && valid(curr)) {
-                ans.push_back(curr);
-                return;
-            }
-            
-            // 剪枝
-            if (left > n || right > n)
-                return;
+    //vector<string> generateParenthesis(int n) {
+    //    // https://leetcode.cn/problems/generate-parentheses/description/
+    //    vector<string> ans;
+    //    auto valid = [&](string& str) -> bool {
+    //        // 判断是不是有效的括号
+    //        stack<char> stk;
+    //        for (auto ch : str) {
+    //            if (ch == ')') {        // 从要加入的字符分类看
+    //                if (!stk.empty() && stk.top() == '(')
+    //                    stk.pop();
+    //                else
+    //                    return false;
+    //            }
+    //            else {
+    //                stk.push('(');
+    //            }
+    //        }
+    //        return stk.empty();
+    //        };
+    //    auto recur = [&](this auto&& self, string& curr, int left, int right) -> void{
+    //        if (left == n && right == n && valid(curr)) {
+    //            ans.push_back(curr);
+    //            return;
+    //        }
+    //        
+    //        // 剪枝
+    //        if (left > n || right > n)
+    //            return;
 
-            curr.push_back('(');
-            self(curr, left + 1, right);
-            curr.pop_back();
-            curr.push_back(')');
-            self(curr, left, right + 1);
-            curr.pop_back();                // 其实这里的撤销选择 你想啊 如果是一个“值类型”就懂了
-            };
-        string curr;
-        recur(curr, 0, 0);
-        return ans;
-    }
+    //        curr.push_back('(');
+    //        self(curr, left + 1, right);
+    //        curr.pop_back();
+    //        curr.push_back(')');
+    //        self(curr, left, right + 1);
+    //        curr.pop_back();                // 其实这里的撤销选择 你想啊 如果是一个“值类型”就懂了
+    //        };
+    //    string curr;
+    //    recur(curr, 0, 0);
+    //    return ans;
+    //}
     vector<string> generateParenthesis2(int n) {
         // https://leetcode.cn/problems/generate-parentheses/description/
         // 优化版本  一定注重剪枝的过程 能够优化很多

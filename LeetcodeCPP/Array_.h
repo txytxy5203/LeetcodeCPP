@@ -2100,6 +2100,23 @@ public:
         return ans;
     }
     int numberOfSubstrings(string s) {
+        // https://leetcode.cn/problems/number-of-substrings-containing-all-three-characters/description/
+        int ans = 0;
+        int left = 0;
+        unordered_map<char, int> dict;
+        for (size_t i = 0; i < s.size(); i++)
+        {
+            dict[s[i]]++;
 
+            while (dict[s[left]] > 1)
+            {
+                dict[s[left]]--;
+                left++;
+            }
+
+            if(dict['a'] >= 1 && dict['b'] >= 1 && dict['c'] >= 1)
+                ans += left + 1;
+        }
+        return ans;
     }
 };
